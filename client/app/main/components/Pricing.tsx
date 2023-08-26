@@ -1,12 +1,12 @@
-import { Container } from '@common/Container';
-import { ReactNode } from 'react';
+import { Container } from '@/app/common/layout/Container'
+import { ReactNode } from 'react'
 
 function PricingItem({
   tier,
   children,
 }: {
-  tier: string;
-  children: ReactNode;
+  tier: string
+  children: ReactNode
 }) {
   return (
     <div className="bg-zinc-100 dark:bg-blue-800">
@@ -15,20 +15,20 @@ function PricingItem({
           {tier}
         </h5>
 
-        <ul className="list-disc list-inside text-md space-y-4">{children}</ul>
+        <ul className="text-md list-inside list-disc space-y-4">{children}</ul>
       </div>
     </div>
-  );
+  )
 }
 
 export function Pricing() {
   return (
     <Container>
-      <h2 className="max-lg:text-center my-8 text-2xl font-bold text-zinc-700 dark:text-white md:text-4xl">
+      <h2 className="my-8 text-2xl font-bold text-zinc-700 dark:text-white max-lg:text-center md:text-4xl">
         Our Pricing Tiers
       </h2>
 
-      <div className="grid lg:divide-x max-lg:divide-y dark:divide-zinc-800 overflow-hidden rounded-3xl sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3">
+      <div className="grid overflow-hidden rounded-3xl dark:divide-zinc-800 max-lg:divide-y sm:grid-cols-1 lg:grid-cols-3 lg:divide-x xl:grid-cols-3">
         <PricingItem tier="Free Tier">
           <li>Access to Standard AI Model</li>
           <li>Process a Single Document</li>
@@ -51,5 +51,5 @@ export function Pricing() {
         </PricingItem>
       </div>
     </Container>
-  );
+  )
 }

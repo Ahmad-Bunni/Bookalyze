@@ -1,2 +1,2 @@
+export * from './ChatDisplay'
 export * from './ChatInput'
-export * from './ChatMessages'

@@ -1,26 +1,21 @@
-import { useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Message, Role } from '../models'
+import LoadingDots from './LoadingDots'
 
-export function ChatDisplay({ messages }: { messages: Message[] }) {
-  const chatRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight
-    }
-  }, [messages])
-
+export function ChatDisplay({
+  messages,
+  isLoading,
+}: {
+  messages: Message[]
+  isLoading: boolean
+}) {
   return (
-    <div
-      className="m-auto mx-4 flex flex-col lg:mx-auto lg:max-w-3xl"
-      ref={chatRef}
-    >
+    <div className="m-auto mx-4 flex flex-col gap-1 lg:mx-auto lg:max-w-3xl">
       {messages.map((message, index) => (
         <div
           key={message.id || index}
-          className={`border-b p-4 dark:border-zinc-600 
+          className={`rounded-md p-4 dark:border-zinc-600 
           ${
             index % 2 === 0
               ? 'bg-zinc-200 dark:bg-zinc-700'
@@ -39,6 +34,12 @@ export function ChatDisplay({ messages }: { messages: Message[] }) {
           )}
         </div>
       ))}
+
+      {isLoading && (
+        <div className="animate-fadeIn rounded-md bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800">
+          <LoadingDots />
+        </div>
+      )}
     </div>
   )
 }

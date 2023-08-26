@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowIcon } from '@/app/common/ArrowIcon'
-import LoadingAnimation from '@/app/common/Loading'
+import { ArrowIcon } from '@/app/common/Icons/Arrow'
+import LoadingSpinner from '@/app/common/Icons/LoadingSpinner'
 import { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Message, Role } from '../models'
@@ -27,7 +27,12 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
   }, [inputValue])
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey && inputValue) {
+    if (
+      event.key === 'Enter' &&
+      !event.shiftKey &&
+      inputValue?.trim() &&
+      !isLoading
+    ) {
       event.preventDefault()
 
       const message: Message = {
@@ -47,10 +52,9 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
         <div className="shadow-xs relative flex w-full items-center rounded-xl border py-2 shadow dark:border-zinc-600 dark:bg-zinc-700 md:py-4 md:pl-2">
           <textarea
             ref={textareaRef}
-            disabled={isLoading}
             rows={1}
             value={inputValue}
-            placeholder={isLoading ? 'Loading...' : 'Send a message'}
+            placeholder="Send a message"
             className="max-h-40 w-full resize-none bg-transparent pl-3 pr-10 text-zinc-600 outline-none dark:border-zinc-600 dark:text-zinc-200"
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -61,7 +65,7 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
               isLoading ? '' : 'md:bottom-3'
             }`}
           >
-            {isLoading ? <LoadingAnimation /> : <ArrowIcon />}
+            {isLoading ? <LoadingSpinner /> : <ArrowIcon />}
           </button>
         </div>
       </div>

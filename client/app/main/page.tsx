@@ -2,9 +2,9 @@ import { Highlights } from './components/Highlights'
 import { Intro } from './components/Intro'
 import { Pricing } from './components/Pricing'
 
-export default function Home() {
+export default function Main() {
   return (
-    <div className="flex flex-col w-full gap-8">
+    <div className="flex w-full flex-col gap-8">
       <Intro />
       <Highlights />
       <Pricing />
