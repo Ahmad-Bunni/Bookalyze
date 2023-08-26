@@ -3,4 +3,5 @@ openai
 python-dotenv
 pinecone-client
 numpy
-sentence_transformers 
+spacy
+ pdfminer.six

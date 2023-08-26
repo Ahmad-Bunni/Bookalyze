@@ -18,7 +18,7 @@ export function ChatHeader() {
 
             <div className="flex flex-col lg:flex-row items-center lg:w-auto w-full gap-4">
               <ul className="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0 transition">
-                <Link className="md:px-4" href="#upload">
+                <Link className="md:px-4" href="">
                   Sign Out
                 </Link>
               </ul>
