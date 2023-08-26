@@ -22,7 +22,6 @@
     "paths": {
       "@/*": ["./*"],
       "@common/*": ["./app/common/*"],
-      "@static/*": ["./static/*"],
       "@app/*": ["./app/*"]
     }
   },

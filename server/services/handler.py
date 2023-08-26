@@ -1,29 +1,27 @@
 from flask import current_app
+from services.text_processing import TextProcessing
 from .pinecone import PineconeService
-from .utils import clean_text, chunk_text, get_batches
+from services.openai import get_embedding, get_embedding_batches
 
 
-def handle_content(content, namespace):
-    pinecone_service = get_pinecone_service()
+def insert_content(content, namespace):
+    pinecone_service: PineconeService = current_app.pinecone_service
+    text_processing: TextProcessing = current_app.text_processing
 
-    cleaned_context = clean_text(content)
-    text_array = chunk_text(cleaned_context)
+    text = text_processing.clean_text(content)
 
-    batches = get_batches(text_array, get_model())
+    text_chunks = text_processing.chunk(text)
 
-    for batch in batches:
-        pinecone_service.add_vectors(namespace, batch)
+    batches = get_embedding_batches(text_chunks)
 
-
-def handle_question(question, namespace):
-    pinecone_service = get_pinecone_service()
-
-    return pinecone_service.query(question, namespace, get_model())
+    pinecone_service.add_vectors(namespace, batches)
 
 
-def get_model():
-    return current_app.embedding_model
+def get_context(question, namespace):
+    pinecone_service: PineconeService = current_app.pinecone_service
 
+    query_vectors = get_embedding(question)
 
-def get_pinecone_service() -> PineconeService:
-    return current_app.pinecone_service
+    context = pinecone_service.query(namespace, query_vectors, 'specific')
+
+    return context

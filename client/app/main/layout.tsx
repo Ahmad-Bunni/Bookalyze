@@ -1,14 +1,12 @@
-import Chat from './@chat/page'
-import { ChatHeader } from './components/ChatHeader'
+import { ReactNode } from 'react'
+import { AppHeader } from './components/AppHeader'
 
-export default function Layout() {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col h-screen">
-      <ChatHeader />
+    <>
+      <AppHeader />
 
-      <div className="flex-1 relative overflow-hidden">
-        <Chat />
-      </div>
-    </div>
+      <div>{children}</div>
+    </>
   )
 }

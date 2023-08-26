@@ -35,7 +35,7 @@ export function AppHeader() {
 
               <div className="mt-12 lg:mt-0">
                 <Link
-                  href="/main"
+                  href="/chat"
                   className="relative flex h-9 w-full items-center justify-center px-4  inset-0 rounded-full bg-primary transition duration-200 hover:scale-105 active:duration-75 active:scale-95 sm:w-max"
                 >
                   <span className="relative text-sm font-semibold text-white">

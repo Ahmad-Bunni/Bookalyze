@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from services.handler import handle_content, handle_question
-from services.openai import ask_question
+from services.handler import insert_content, get_context
+from services.openai import handle_message
 
 chat = Blueprint("Chat", __name__)
 
@@ -8,14 +8,14 @@ chat = Blueprint("Chat", __name__)
 @chat.route('/ask', methods=['POST'])
 def post_message():
     data = request.json
-    question = data.get('question')
+    message = data.get('message')
     namespace = data.get('namespace')
 
-    context = handle_question(question, namespace)
+    context = get_context(message, namespace)
 
-    reply = ask_question(question, context)
+    response = handle_message(message, context)
 
-    return jsonify({"message": reply}), 200
+    return jsonify({"message": response}), 200
 
 
 @chat.route('/embedding', methods=['POST'])
@@ -24,6 +24,6 @@ def post_content():
     content = data.get('content')
     namespace = data.get('namespace')
 
-    handle_content(content, namespace)
+    insert_content(content, namespace)
 
     return jsonify({"message": "OK"}), 200
