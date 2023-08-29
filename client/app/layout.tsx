@@ -10,11 +10,7 @@ export const metadata: Metadata = {
     'Unlock the essence of your documents with Bookalyze. Our advanced AI reads, summarizes, and answers your questions from any PDF or Word file. Dive deep into your literature effortlessly and gain insights in seconds.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`h-screen ${inter.className}`}>{children}</body>

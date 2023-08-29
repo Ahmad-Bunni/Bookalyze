@@ -1,12 +1,15 @@
-import Chat from './@chat/page'
+import { ReactNode } from 'react'
+import { NextAuthProvider } from '../providers'
 import { ChatHeader } from './components/ChatHeader'
 
-export default function Layout() {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-full flex-col">
-      <ChatHeader />
+    <NextAuthProvider>
+      <div className="flex h-full flex-col">
+        <ChatHeader />
 
-      <Chat />
-    </div>
+        {children}
+      </div>
+    </NextAuthProvider>
   )
 }

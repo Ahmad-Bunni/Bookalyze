@@ -8,16 +8,32 @@ PREMIUM_MODEL = "gpt-4"
 EMBEDDING_MODEL = "text-embedding-ada-002"
 
 
+messages = [
+    {
+        "role": "system",
+                "content": "You are a sharp and helpful assistant that answers user questions."
+    }
+]
+
+
 def handle_message(question, context):
+
+    messages.append({
+        "role": "user",
+                "content": f"{question}"
+    })
+
+    if (context):
+        messages.append({
+            "role": "system",
+            "content": f"Rely on the following context to answer the question '{context}'"
+        })
+
     response = openai.ChatCompletion.create(
         model=BASIC_MODEL,
         temperature=0.1,
         max_tokens=512,
-        messages=[
-            {"role": "system",
-             "content": f"You are a friendly assistant that is going to answer questions based on the given context below. Format your answers in markdown language. \n\n Context: {context} \n\n Question: {question}"
-             }
-        ]
+        messages=messages,
     )
 
     model_response = response['choices'][0]['message']['content']

@@ -1,5 +1,6 @@
 import { Container } from '@/app/common/layout/Container'
 import Link from 'next/link'
+import { SignOutButton } from './Auth'
 
 export function ChatHeader() {
   return (
@@ -18,9 +19,7 @@ export function ChatHeader() {
 
             <div className="flex w-full flex-col items-center gap-4 lg:w-auto lg:flex-row">
               <ul className="flex flex-col gap-6 font-medium tracking-wide transition lg:flex-row lg:gap-0 lg:text-sm">
-                <Link className="md:px-4" href="">
-                  Sign Out
-                </Link>
+                <SignOutButton />
               </ul>
             </div>
           </div>
