@@ -11,9 +11,9 @@ def post_message():
     message = data.get('message')
     namespace = data.get('namespace')
 
-    context = get_context(message, namespace)
+    # context = get_context(message, namespace)
 
-    response = handle_message(message, context)
+    response = handle_message(message, "")
 
     return jsonify({"message": response}), 200
 
