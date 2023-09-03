@@ -1,20 +1,25 @@
 from flask import Blueprint, jsonify, request
-from services.handler import insert_content
-from pdfminer.high_level import extract_text
-from io import BytesIO
+from handlers.content_handler import process_file, process_text
 
 upload = Blueprint("Upload", __name__)
 
 
 @upload.route('/file', methods=['POST'])
 def upload_file():
-    uploaded_file = request.files.get('file')
+    file = request.files.get('file')
     namespace = request.form.get('namespace')
 
-    uploaded_file_stream = BytesIO(uploaded_file.read())
+    process_file(file, namespace)
 
-    text = extract_text(uploaded_file_stream)
+    return jsonify({"message": "OK"}), 200
 
-    insert_content(text, namespace)
+
+@upload.route('/text', methods=['POST'])
+def upload_text():
+    data = request.json
+    content = data.get('content')
+    namespace = data.get('namespace')
+
+    process_text(content, namespace)
 
     return jsonify({"message": "OK"}), 200

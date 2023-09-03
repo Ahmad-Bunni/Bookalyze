@@ -35,19 +35,11 @@ class PineconeService:
         for batch in batches:
             self.index.upsert(vectors=batch, namespace=namespace)
 
-    def query(self, namespace, embeddings, query_type):
-        parameters = {
-            "specific": {"top_k": 10, "threshold": 0.7},
-            "generic": {"top_k": 10, "threshold": 0.5},
-        }
-
-        top_k = parameters[query_type]["top_k"]
-        threshold = parameters[query_type]["threshold"]
-
+    def query(self, namespace, embeddings):
         try:
             query_response = self.index.query(
                 namespace=namespace,
-                top_k=top_k,
+                top_k=10,
                 include_values=False,
                 include_metadata=True,
                 vector=embeddings,
@@ -55,7 +47,7 @@ class PineconeService:
 
             context = ""
             for result in query_response.matches:
-                if result.score > threshold:
+                if result.score > 0.6:
                     currentContext = str(result.metadata["content"])
                     context += f'{currentContext} '
 

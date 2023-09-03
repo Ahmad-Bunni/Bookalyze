@@ -1,90 +1,73 @@
+from typing import List
+import fitz
 import spacy
-import re
 
 
 class TextProcessing:
+    _nlp = None
     _instance = None
 
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
-            cls._instance = cls()
+            print('Initializing Spacy instance...')
+            cls._nlp = spacy.load("en_core_web_md")
         return cls._instance
-
-    def __init__(self):
-        if TextProcessing._instance is not None:
-            raise Exception("This class is a singleton!")
-        TextProcessing._instance = self
-        self._nlp = None
 
     @property
     def nlp(self):
         if self._nlp is None:
-            print("Loading SpaCy model...")
+            print("Loading Spacy...")
             self._nlp = spacy.load("en_core_web_md")
-        return self._nlp
+        return self.nlp
 
-    def chunk(self, text, token_length=256, overlap=20):
-        doc = self.nlp(text)
-        chunks = []
-        current_chunk = []
-        current_length = 0
+    def _remove_stop_words(self, text: str) -> str:
+        doc = self._nlp(text)
+        text_parts = [token.text for token in doc if not token.is_stop]
+        return "".join(text_parts)
 
-        for sentence in doc.sents:
-            sentence_length = len(sentence)
+    def _split_sentences(self, text: str) -> List[str]:
+        doc = self._nlp(text)
+        sentences = [sent.text for sent in doc.sents]
+        return sentences
 
-            # If adding this sentence doesn't exceed the token length,
-            # add it to the current chunk.
-            if current_length + sentence_length <= token_length:
-                current_chunk.append(sentence.text)
-                current_length += sentence_length
+    def _group_sentences_semantically(self, sentences: List[str], threshold: int) -> List[str]:
+        docs = [self._nlp(sentence) for sentence in sentences]
+        segments = []
+
+        start_idx = 0
+        end_idx = 1
+        segment = [sentences[start_idx]]
+        while end_idx < len(docs):
+            if docs[start_idx].similarity(docs[end_idx]) >= threshold:
+                segment.append(sentences[end_idx])
             else:
-                # Otherwise, store the current chunk and start a new one
-                chunks.append(' '.join(current_chunk))
-                current_chunk = [sentence.text]
-                current_length = sentence_length
+                segments.append(" ".join(segment))
+                start_idx = end_idx
+                segment = [sentences[start_idx]]
+            end_idx += 1
 
-        # Store the last chunk if any
-        if current_chunk:
-            chunks.append(' '.join(current_chunk))
+        if segment:
+            segments.append(" ".join(segment))
 
-        # Now create overlapping chunks
-        overlap_chunks = []
-        for i in range(0, len(chunks)-1):  # Adjusted to not exceed the list length
-            # Taking two chunks at a time for overlap
-            overlap_text = ' '.join(chunks[i:i+2])
-            tokens = [token.text for token in self.nlp(overlap_text)]
+        return segments
 
-            # Create a chunk that includes the overlap from the next chunk
-            new_chunk = tokens[:token_length + overlap]  # Using list slicing
+    def _split_text(self, text: str) -> List[str]:
+        text_no_stop_words = self._remove_stop_words(text)
+        sentences = self._split_sentences(text_no_stop_words)
+        return self._group_sentences_semantically(sentences, 0.8)
 
-            overlap_chunks.append(' '.join(new_chunk))
+    def get_chunks_file(self, stream):
+        with fitz.open(stream=stream) as pdf:
+            chunks = []
+            for page in pdf:
+                text = page.get_text()
+                text_chunks = self.get_chunks_text(text)
+                if (len(text_chunks)):
+                    chunks.extend(text_chunks)
 
-        # Combine original and overlapping chunks
-        final_chunks = chunks + overlap_chunks
+            return chunks
 
-        return final_chunks
-
-    def clean_text(self, text: str) -> str:
-        cleaned = re.sub(r'https?://\S+|www\.\S+', '', text)
-        cleaned = re.sub(r'\S+@\S+', '', text)
-        cleaned = ''.join(
-            ch for ch in text if ch.isprintable() or ch.isspace())
-        cleaned = ' '.join(cleaned.split())
-        cleaned = re.sub(r'\n{3,}', '\n[SECTION]\n', cleaned)
-        return cleaned
-
-    def classify_question(self, text: str) -> str:
-        doc = self.nlp(text)
-        # Check for WH-words
-        wh_words = {"who", "what", "where", "when",
-                    "why", "how", "which", "whom", "whose"}
-        if doc[0].text.lower() not in wh_words:
-            return "generic"
-        # Check for named entities
-        if doc.ents:
-            return "specific"
-        # Check for pronouns or proper nouns after WH-word
-        if doc[1].pos_ in ["PRP", "PROPN"]:
-            return "specific"
-        return "generic"
+    def get_chunks_text(self, text):
+        if (text.strip() != ''):
+            return self._split_text(text)
