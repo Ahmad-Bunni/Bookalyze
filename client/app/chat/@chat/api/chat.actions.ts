@@ -6,7 +6,7 @@ export async function sendMessage(message: string) {
     },
     body: JSON.stringify({
       message: message,
-      namespace: 'development-3',
+      namespace: 'spacy',
     }),
   })
 
@@ -21,13 +21,10 @@ export async function sendMessage(message: string) {
 
 export async function uploadFile(formData: FormData) {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/file`,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/file`, {
+      method: 'POST',
+      body: formData,
+    })
 
     if (!response.ok) {
       throw new Error('Failed to upload file')

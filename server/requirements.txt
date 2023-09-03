@@ -4,4 +4,4 @@ python-dotenv
 pinecone-client
 numpy
 spacy
- pdfminer.six
+PyMuPDF
