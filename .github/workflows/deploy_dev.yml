@@ -11,7 +11,6 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
       REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
       REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
 
     steps:
       - name: "Checkout GitHub Action"
@@ -42,11 +41,11 @@ jobs:
           cpu: 1
           memory: 1
           ports: 5000
-          resource-group: ${{ env.RESOURCE_GROUP }}
-          dns-name-label: server
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: bookalyze
           image: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           registry-login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ env.REGISTRY_USERNAME }}
           registry-password: ${{ env.REGISTRY_PASSWORD }}
           environment-variables: PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }}
-          secure-environment-variables: PINECONE_API_KEY=${{ secrets.OPENAI_API_KEY }} key2=${{ secrets.OPENAI_API_KEY }}
+          secure-environment-variables: PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }} OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
