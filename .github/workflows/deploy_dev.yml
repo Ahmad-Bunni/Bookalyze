@@ -21,6 +21,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
 
       - name: "Build and push image"
         uses: azure/docker-login@v1
@@ -29,7 +30,7 @@ jobs:
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ env.REGISTRY_PASSWORD }}
       - run: |
-          DOCKER_IMAGE="${env.REGISTRY_LOGIN_SERVER}/bookalyze:${env.GITHUB_SHA}"
+          DOCKER_IMAGE="${env.REGISTRY_LOGIN_SERVER}/bookalyze:${{ github.sha }}"
           docker build ./server -t $DOCKER_IMAGE
           docker push $DOCKER_IMAGE
 
