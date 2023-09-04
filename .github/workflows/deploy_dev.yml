@@ -1,4 +1,5 @@
-on: [push]
+on:
+  pull_request:
 
 name: Deploy Bookalyze Backend
 
@@ -11,37 +12,37 @@ jobs:
       REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
       REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
       RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-      BOOKALYZE_IMAGE_NAME: bookalyze
-      BOOKALYZE_PROJECT_PATH: ./server
 
     steps:
-      - name: 'Checkout GitHub Action'
+      - name: "Checkout GitHub Action"
         uses: actions/checkout@main
 
-      - name: 'Login via Azure CLI'
+      - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: 'Build and push image'
+      - name: "Build and push image"
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ env.REGISTRY_PASSWORD }}
       - run: |
-          DOCKER_IMAGE="${env.REGISTRY_LOGIN_SERVER}/${env.BOOKALYZE_IMAGE_NAME}:${env.GITHUB_SHA}"
-          docker build ${env.BOOKALYZE_PROJECT_PATH} -t $DOCKER_IMAGE
+          DOCKER_IMAGE="${env.REGISTRY_LOGIN_SERVER}/bookalyze:${env.GITHUB_SHA}"
+          docker build ./server -t $DOCKER_IMAGE
           docker push $DOCKER_IMAGE
 
-      - name: 'Deploy to Azure Container Instances'
-        uses: 'azure/aci-deploy@v1'
+      - name: "Deploy to Azure Container Instances"
+        uses: "azure/aci-deploy@v1"
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
           dns-name-label: ${{ env.RESOURCE_GROUP }}${{ github.run_number }}
           image: $DOCKER_IMAGE
+          cpu: 1
+          memory: 1
           registry-login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ env.REGISTRY_USERNAME }}
           registry-password: ${{ env.REGISTRY_PASSWORD }}
-          name: aci-${{ env.BOOKALYZE_IMAGE_NAME }}
-          location: 'west us'
+          name: acibookalyzedev
+          location: "west us"
