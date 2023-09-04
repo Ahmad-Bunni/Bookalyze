@@ -40,7 +40,7 @@ jobs:
           location: "west europe"
           cpu: 1
           memory: 1
-          ports: 5000
+          ports: 80 5000
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: bookalyze
           image: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
