@@ -37,11 +37,13 @@ jobs:
       - name: "Deploy to Azure Container Instances"
         uses: "azure/aci-deploy@v1"
         with:
+          name: aci-bookalyze-dev
+          location: "west europe"
+          cpu: 1
+          memory: 1
           resource-group: ${{ env.RESOURCE_GROUP }}
           dns-name-label: ${{ env.RESOURCE_GROUP }}${{ github.run_number }}
           image: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           registry-login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ env.REGISTRY_USERNAME }}
           registry-password: ${{ env.REGISTRY_PASSWORD }}
-          name: aci-bookalyze-dev
-          location: "west europe"
