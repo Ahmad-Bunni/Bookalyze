@@ -30,7 +30,7 @@ jobs:
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ env.REGISTRY_PASSWORD }}
       - run: |
-          DOCKER_IMAGE=${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:${{ github.sha }}
+          DOCKER_IMAGE=${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           docker build ./server -t $DOCKER_IMAGE
           docker push $DOCKER_IMAGE
 
@@ -39,9 +39,7 @@ jobs:
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
           dns-name-label: ${{ env.RESOURCE_GROUP }}${{ github.run_number }}
-          image: $DOCKER_IMAGE
-          cpu: 1
-          memory: 1
+          image: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           registry-login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ env.REGISTRY_USERNAME }}
           registry-password: ${{ env.REGISTRY_PASSWORD }}
