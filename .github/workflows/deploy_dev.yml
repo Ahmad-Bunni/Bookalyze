@@ -44,4 +44,4 @@ jobs:
           registry-username: ${{ env.REGISTRY_USERNAME }}
           registry-password: ${{ env.REGISTRY_PASSWORD }}
           name: acibookalyzedev
-          location: "west us"
+          location: "west europe"
