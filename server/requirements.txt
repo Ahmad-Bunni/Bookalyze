@@ -8,3 +8,4 @@ PyMuPDF
 sentence_transformers
 langchain
 tiktoken
+pinecone_text
