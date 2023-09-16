@@ -28,7 +28,7 @@ jobs:
         with:
           containerAppName: "ac-bookalyze-dev"
           appSourcePath: ${{ github.workspace }}
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          resourceGroup: ${{ secrets.RESOURCE_GROUP }}
           dockerfilePath: ./server
           imageToBuild: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           registryUrl: ${{ env.REGISTRY_LOGIN_SERVER }}
