@@ -1,17 +1,23 @@
-from flask import Blueprint, jsonify, request
-from handlers.content_handler import process_file, process_text
+from flask import Blueprint, jsonify, request, current_app
+from .handlers.content_handler import ContentHandler
+
 
 upload = Blueprint("Upload", __name__)
 
 
 @upload.route('/file', methods=['POST'])
 def upload_file():
-    file = request.files.get('file')
-    namespace = request.form.get('namespace')
+    try:
+        file = request.files.get('file')
+        namespace = request.form.get('namespace')
 
-    process_file(file, namespace)
+        handler = ContentHandler(
+            chunk_extractor_service=current_app.chunk_extractor_service)
+        handler.process_file(file, namespace)
 
-    return jsonify({"message": "OK"}), 200
+        return jsonify({"message": "OK"}), 200
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 400
 
 
 @upload.route('/text', methods=['POST'])
@@ -20,6 +26,8 @@ def upload_text():
     content = data.get('content')
     namespace = data.get('namespace')
 
-    process_text(content, namespace)
+    handler = ContentHandler(
+        chunk_extractor_service=current_app.chunk_extractor_service)
+    handler.process_text(content, namespace)
 
     return jsonify({"message": "OK"}), 200
