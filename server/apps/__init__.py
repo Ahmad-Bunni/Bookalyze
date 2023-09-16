@@ -1,9 +1,12 @@
 import os
-from flask import Flask
+import pinecone
 from .chat import chat as chat_blueprint
 from .upload import upload as upload_blueprint
-from services.text_processing import TextProcessing
-from services.pinecone import PineconeService
+from services.chunk_extractor import ChunkExtractor
+from pinecone_text.sparse import BM25Encoder
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.chat_models import ChatOpenAI
+from flask import Flask
 
 
 def create_app():
@@ -16,12 +19,14 @@ def create_app():
     app.register_blueprint(chat_blueprint, url_prefix='/api/chat')
     app.register_blueprint(upload_blueprint, url_prefix='/api/upload')
 
-    api_key = app.config['PINECONE_API_KEY']
-    env = app.config['PINECONE_ENV']
-    index_name = app.config['PINECONE_INDEX']
+    pinecone.init(
+        api_key=app.config['PINECONE_API_KEY'],
+        environment=app.config['PINECONE_ENV'],
+    )
 
-    app.pinecone_service = PineconeService.get_instance(
-        api_key, env, index_name)
-    app.text_processing_service = TextProcessing.get_instance()
+    app.llm_gpt = ChatOpenAI(model_name="gpt-3.5-turbo")
+    app.bm25_encoder = BM25Encoder().default()
+    app.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    app.chunk_extractor_service = ChunkExtractor.get_instance()
 
     return app
