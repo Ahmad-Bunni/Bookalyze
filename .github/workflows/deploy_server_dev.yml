@@ -38,8 +38,8 @@ jobs:
         with:
           name: aci-bookalyze-dev
           location: "west europe"
-          cpu: 1
-          memory: 1
+          cpu: 2
+          memory: 4
           ports: 5000
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: bookalyze
