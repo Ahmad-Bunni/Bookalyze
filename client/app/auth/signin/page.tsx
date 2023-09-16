@@ -21,7 +21,7 @@ export default async function Page() {
 
         <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">
           {Object.values(providers).map((provider) => (
-            <SignInLink provider={provider} />
+            <SignInLink key={provider.id} provider={provider} />
           ))}
         </div>
       </div>

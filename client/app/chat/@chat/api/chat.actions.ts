@@ -1,12 +1,12 @@
 export async function sendMessage(message: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ask`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/ask`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: message,
-      namespace: 'spacy',
+      question: message,
+      namespace: 'default',
     }),
   })
 
