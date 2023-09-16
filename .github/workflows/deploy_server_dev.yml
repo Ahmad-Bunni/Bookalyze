@@ -1,0 +1,51 @@
+on:
+  pull_request:
+
+name: Deploy Bookalyze Backend
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@main
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: "Build and push image"
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+      - run: |
+          DOCKER_IMAGE=${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
+          docker build ./server -t $DOCKER_IMAGE
+          docker push $DOCKER_IMAGE
+
+      - name: "Deploy to Azure Container Instances"
+        uses: "azure/aci-deploy@v1"
+        with:
+          name: aci-bookalyze-dev
+          location: "west europe"
+          cpu: 1
+          memory: 1
+          ports: 5000
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: bookalyze
+          image: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
+          registry-login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
+          registry-username: ${{ env.REGISTRY_USERNAME }}
+          registry-password: ${{ env.REGISTRY_PASSWORD }}
+          environment-variables: PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }}
+          secure-environment-variables: PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }} OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
