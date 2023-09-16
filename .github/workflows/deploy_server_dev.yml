@@ -27,9 +27,8 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
           containerAppName: "ac-bookalyze-dev"
-          appSourcePath: ${{ github.workspace }}
+          appSourcePath: ${{ github.workspace }}/server
           resourceGroup: ${{ secrets.RESOURCE_GROUP }}
-          dockerfilePath: ./server
           imageToBuild: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
           registryUrl: ${{ env.REGISTRY_LOGIN_SERVER }}
           registryUsername: ${{ env.REGISTRY_USERNAME }}
