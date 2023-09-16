@@ -1,7 +1,7 @@
-flask
-openai
-python-dotenv
-pinecone-client
-numpy
-spacy
-PyMuPDF
+Flask~=2.3
+openai~=0.28
+python-dotenv~=1.0
+pinecone-client~=2.2
+numpy~=1.25
+spacy~=3.6
+PyMuPDF~=1.23
