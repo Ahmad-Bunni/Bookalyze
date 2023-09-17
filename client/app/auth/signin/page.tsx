@@ -4,8 +4,12 @@ import SignInLink from './components/SignInProvider'
 
 export default async function Page() {
   const providers = await getProviders()
+  console.log(providers)
 
-  if (!providers) return
+  if (!providers) {
+    console.log('empty')
+    return
+  }
 
   return (
     <Container>
