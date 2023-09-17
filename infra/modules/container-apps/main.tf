@@ -14,7 +14,7 @@ resource "azurerm_container_app" "bookalyze-ac" {
   ingress {
     allow_insecure_connections = true
     external_enabled           = true
-    target_port                = 80
+    target_port                = 5000
     traffic_weight {
       latest_revision = true
       percentage      = 100
@@ -53,13 +53,13 @@ resource "azurerm_container_app" "bookalyze-ac" {
 
       readiness_probe {
         transport        = "TCP"
-        port             = 80
+        port             = 5000
         interval_seconds = 30
       }
 
       liveness_probe {
         transport        = "TCP"
-        port             = 80
+        port             = 5000
         initial_delay    = 30
         interval_seconds = 120
       }
@@ -82,6 +82,11 @@ resource "azurerm_container_app" "bookalyze-ac" {
       env {
         name        = "OPENAI_API_KEY"
         secret_name = "openaikey"
+      }
+
+      env {
+        name        = "FLASK_ENV"
+        secret_name = "production"
       }
     }
   }
