@@ -12,11 +12,11 @@ resource "azurerm_container_app" "bookalyze-ac" {
   revision_mode                = "Single"
 
   ingress {
-    allow_insecure_connections = false
-    external_enabled           = true
-    target_port                = 80
+    external_enabled = true
+    target_port      = 80
     traffic_weight {
-      percentage = 100
+      latest_revision = true
+      percentage      = 100
     }
   }
 
@@ -37,8 +37,8 @@ resource "azurerm_container_app" "bookalyze-ac" {
     container {
       name   = "server"
       image  = "${var.registry_login_server}/bookalyze:latest"
-      cpu    = 1
-      memory = "2Gi"
+      cpu    = 2
+      memory = "4Gi"
     }
   }
 }
