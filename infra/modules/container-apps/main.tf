@@ -52,14 +52,12 @@ resource "azurerm_container_app" "bookalyze-ac" {
       memory = "2Gi"
 
       readiness_probe {
-        path             = "/"
         transport        = "TCP"
         port             = 80
         interval_seconds = 30
       }
 
       liveness_probe {
-        path             = "/"
         transport        = "TCP"
         port             = 80
         initial_delay    = 30

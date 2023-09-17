@@ -35,4 +35,4 @@ jobs:
           registryUrl: ${{ env.REGISTRY_LOGIN_SERVER }}
           registryUsername: ${{ env.REGISTRY_USERNAME }}
           registryPassword: ${{ env.REGISTRY_PASSWORD }}
-          environmentVariables: FLASK_ENV=production PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }} PINECONE_API_KEY=secretref:PINECONE_API_KEY OPENAI_API_KEY=secretref:OPENAI_API_KEY
+          environmentVariables: FLASK_ENV=production PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }} PINECONE_API_KEY=secretref:pineconekey OPENAI_API_KEY=secretref:openaikey
