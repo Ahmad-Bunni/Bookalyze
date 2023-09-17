@@ -13,11 +13,7 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
       REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
       REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-      CONTAINER_NAME: ac-bookalyze-dev
-      IMAGE_REPOSITORY: bookaylze
-      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
       PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - name: "Checkout GitHub Action"
@@ -31,8 +27,8 @@ jobs:
       - name: "Deploy to Azure Container Instances"
         uses: azure/container-apps-deploy-action@v1
         with:
-          containerAppName: ${{ env.CONTAINER_NAME }}
-          containerAppEnvironment: ${{ env.CONTAINER_NAME }}-env
+          containerAppName: ac-bookalyze-dev
+          containerAppEnvironment: ac-bookalyze-dev-env
           appSourcePath: ${{ github.workspace }}/server
           resourceGroup: ${{ secrets.RESOURCE_GROUP }}
           imageToBuild: ${{ env.REGISTRY_LOGIN_SERVER }}/bookalyze:latest
@@ -40,4 +36,3 @@ jobs:
           registryUsername: ${{ env.REGISTRY_USERNAME }}
           registryPassword: ${{ env.REGISTRY_PASSWORD }}
           environmentVariables: FLASK_ENV=production PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }} PINECONE_API_KEY=secretref:PINECONE_API_KEY OPENAI_API_KEY=secretref:OPENAI_API_KEY
-          yamlConfigPath: ${{ github.workspace }}/infra/configs/container-apps.yaml

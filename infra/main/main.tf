@@ -21,6 +21,10 @@ module "container_apps" {
   registry_login_server   = module.container_registries.container_registry_server
   registry_username       = module.container_registries.container_registry_username
   registry_password       = module.container_registries.container_registry_password
+  OPENAI_API_KEY          = var.OPENAI_API_KEY
+  PINECONE_API_KEY        = var.PINECONE_API_KEY
+  PINECONE_INDEX          = var.PINECONE_INDEX
+  PINECONE_ENV            = var.PINECONE_ENV
 }
 
 module "github" {

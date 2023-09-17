@@ -16,7 +16,7 @@ RUN python -m spacy download en_core_web_md
 COPY . /app/
 
 # Expose port 5000 for Flask to listen on (you can change this as needed)
-EXPOSE 5000
+EXPOSE 80
 
 # Define the command to run your Flask application
 CMD ["python", "app.py"]
