@@ -33,5 +33,6 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
           appSourcePath: ${{ github.workspace }}/server
+          registryUrl: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           environmentVariables: FLASK_ENV=production PINECONE_ENV=${{ secrets.PINECONE_ENV }} PINECONE_INDEX=${{ secrets.PINECONE_INDEX }} PINECONE_API_KEY=secretref:PINECONE_API_KEY OPENAI_API_KEY=secretref:OPENAI_API_KEY
           yamlConfigPath: ${{ github.workspace }}/infra/configs/container-apps.yaml
