@@ -9,11 +9,12 @@ resource "azurerm_container_app" "bookalyze-ac" {
   name                         = "ac-${var.project_name}-${var.environment_name}"
   container_app_environment_id = azurerm_container_app_environment.bookalyze-ac-env.id
   resource_group_name          = var.resource_group_name
-  revision_mode                = "Single"
+  revision_mode                = "Multiple"
 
   ingress {
-    external_enabled = true
-    target_port      = 80
+    allow_insecure_connections = true
+    external_enabled           = true
+    target_port                = 80
     traffic_weight {
       latest_revision = true
       percentage      = 100
