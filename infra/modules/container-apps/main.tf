@@ -13,7 +13,7 @@ resource "azurerm_container_app" "bookalyze-ac" {
 
   ingress {
     allow_insecure_connections = false
-    external_enabled           = false
+    external_enabled           = true
     target_port                = 5000
     traffic_weight {
       latest_revision = true
@@ -43,7 +43,7 @@ resource "azurerm_container_app" "bookalyze-ac" {
   }
 
   template {
-    min_replicas = 0
+    min_replicas = 1
     max_replicas = 1
     container {
       name   = "server"
@@ -75,47 +75,6 @@ resource "azurerm_container_app" "bookalyze-ac" {
         name  = "FLASK_ENV"
         value = "production"
       }
-    }
-  }
-}
-
-
-
-resource "azurerm_container_app" "bookalyze-fe-ac" {
-  name                         = "ac-${var.project_name}-${var.environment_name}-web"
-  container_app_environment_id = azurerm_container_app_environment.bookalyze-ac-env.id
-  resource_group_name          = var.resource_group_name
-  revision_mode                = "Single"
-
-  ingress {
-    allow_insecure_connections = false
-    external_enabled           = true
-    target_port                = 3000
-    traffic_weight {
-      latest_revision = true
-      percentage      = 100
-    }
-  }
-
-  secret {
-    name  = var.registry_username
-    value = var.registry_password
-  }
-
-  registry {
-    server               = var.registry_login_server
-    username             = var.registry_username
-    password_secret_name = var.registry_username
-  }
-
-  template {
-    min_replicas = 0
-    max_replicas = 1
-    container {
-      name   = "server"
-      image  = "${var.registry_login_server}/bookalyze-web:latest"
-      cpu    = 0.5
-      memory = "1Gi"
     }
   }
 }
