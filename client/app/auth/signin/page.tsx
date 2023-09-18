@@ -1,11 +1,9 @@
 import { Container } from '@/app/common/layout/Container'
-import { getProviders } from 'next-auth/react'
-import SignInLink from './components/SignInProvider'
 
-export default async function Page() {
-  const providers = await getProviders()
+export default function Page() {
+  // const providers = await getProviders()
 
-  if (!providers) return
+  // if (!providers) return
 
   return (
     <Container>
@@ -19,11 +17,11 @@ export default async function Page() {
           </p>
         </div>
 
-        <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">
+        {/* <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">
           {Object.values(providers).map((provider) => (
             <SignInLink key={provider.id} provider={provider} />
           ))}
-        </div>
+        </div> */}
       </div>
     </Container>
   )

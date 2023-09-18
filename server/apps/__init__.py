@@ -11,6 +11,7 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__)
+
     if os.environ.get('FLASK_ENV') == 'production':
         app.config.from_object('config.ProductionConfig')
     else:
