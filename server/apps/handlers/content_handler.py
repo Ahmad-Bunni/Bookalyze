@@ -7,7 +7,7 @@ class ContentHandler:
     def __init__(self, chunk_extractor_service):
         self.chunk_extractor_service = chunk_extractor_service
         self.pinecone_service = PineconeHybridSearch(
-            index_name="langchain-pinecone-hybrid-search")
+            index_name="default")
 
     def process_file(self, file, namespace):
         # Check if file is a PDF
