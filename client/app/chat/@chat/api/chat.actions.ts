@@ -1,5 +1,5 @@
 export async function sendMessage(message: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/ask`, {
+  const res = await fetch(`${process.env.API_BASE_URL}/chat/ask`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function sendMessage(message: string) {
 
 export async function uploadFile(formData: FormData) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/file`, {
+    const response = await fetch(`${process.env.API_BASE_URL}/file`, {
       method: 'POST',
       body: formData,
     })
