@@ -8,7 +8,7 @@ class QuestionHandler:
         self.llm = llm
         self.chunk_extractor_service = chunk_extractor_service
         self.pinecone_service = PineconeHybridSearch(
-            index_name="langchain-pinecone-hybrid-search")
+            index_name="default")
 
     def answer_question(self, question, namespace):
         reply = ''
