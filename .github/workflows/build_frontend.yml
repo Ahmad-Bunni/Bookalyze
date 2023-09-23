@@ -10,7 +10,7 @@ jobs:
     env:
       REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
       IMAGE_NAME: bookalyze-fe
-      IMAGE_PATH: ./client
+      IMAGE_PATH: client
 
     steps:
       - name: "build docker image"
@@ -21,5 +21,5 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - run: |
-          docker build ${{ env.IMAGE_PATH }} -t ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+          docker build ./${{ env.IMAGE_PATH }} -t ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
