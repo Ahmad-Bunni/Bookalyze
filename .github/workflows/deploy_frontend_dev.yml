@@ -9,7 +9,6 @@ jobs:
 
     env:
       IMAGE_NAME: bookalyze-fe
-      IMAGE_PATH: client
       CONTAINER_APP_NAME: ac-bookalyze-dev-fe
       REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
 
@@ -27,7 +26,6 @@ jobs:
         with:
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           containerAppEnvironment: ac-bookalyze-dev-env
-          appSourcePath: ${{ github.workspace }}/${{ env.IMAGE_PATH }}
           resourceGroup: ${{ secrets.RESOURCE_GROUP }}
           imageToDeploy: ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
           registryUrl: ${{ env.REGISTRY_LOGIN_SERVER }}
