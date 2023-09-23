@@ -1,11 +1,7 @@
-import { handler } from '@/app/api/auth/[...nextauth]/route'
 import { Container } from '@/app/common/layout/Container'
-import { ClientSafeProvider } from 'next-auth/react'
 import SignInProvider from './components/SignInProvider'
 
 export default async function Page() {
-  const providers: ClientSafeProvider[] = handler.providers
-
   return (
     <Container>
       <div className="mt-32 flex gap-8 bg-zinc-50 p-16 shadow-lg dark:bg-zinc-800 max-lg:flex-col max-lg:items-center max-lg:p-8">
@@ -19,9 +15,7 @@ export default async function Page() {
         </div>
 
         <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">
-          {Object.values(providers).map((provider) => (
-            <SignInProvider key={provider.id} provider={provider} />
-          ))}
+          <SignInProvider key="google" provider="google" />
         </div>
       </div>
     </Container>
