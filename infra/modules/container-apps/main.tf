@@ -47,7 +47,7 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
     max_replicas = 1
     container {
       name   = "server"
-      image  = "${var.registry_login_server}/bookalyze:latest"
+      image  = "${var.registry_login_server}/bookalyze-be:latest"
       cpu    = 2
       memory = "4Gi"
 
@@ -73,14 +73,14 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
 
       env {
         name  = "FLASK_ENV"
-        value = "production"
+        value = "development"
       }
     }
   }
 }
 
 
-resource "azurerm_container_app" "bookalyze-ac-be" {
+resource "azurerm_container_app" "bookalyze-ac-fe" {
   name                         = "ac-${var.project_name}-${var.environment_name}-fe"
   container_app_environment_id = azurerm_container_app_environment.bookalyze-ac-env.id
   resource_group_name          = var.resource_group_name
@@ -112,7 +112,7 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
     max_replicas = 1
     container {
       name   = "server"
-      image  = "${var.registry_login_server}/bookalyze-frontend:latest"
+      image  = "${var.registry_login_server}/bookalyze-fe:latest"
       cpu    = 0.5
       memory = "1Gi"
     }
