@@ -1,0 +1,35 @@
+name: Deploy Bookalyze Backend
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: bookalyze-be
+      IMAGE_PATH: server
+      CONTAINER_APP_NAME: ac-bookalyze-dev-be
+      REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@main
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: "Deploy to Azure Container App"
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          containerAppName: ${{ env.CONTAINER_APP_NAME }}
+          containerAppEnvironment: ac-bookalyze-dev-env
+          appSourcePath: ${{ github.workspace }}/${{ env.IMAGE_PATH }}
+          resourceGroup: ${{ secrets.RESOURCE_GROUP }}
+          imageToDeploy: ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+          registryUrl: ${{ env.REGISTRY_LOGIN_SERVER }}
+          registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
