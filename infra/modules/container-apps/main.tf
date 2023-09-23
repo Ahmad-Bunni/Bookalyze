@@ -111,7 +111,7 @@ resource "azurerm_container_app" "bookalyze-ac-fe" {
     min_replicas = 0
     max_replicas = 1
     container {
-      name   = "server"
+      name   = "client"
       image  = "${var.registry_login_server}/bookalyze-fe:latest"
       cpu    = 0.5
       memory = "1Gi"
