@@ -1,4 +1,4 @@
-name: Build Bookalyze Frontend
+name: Build Bookalyze Backend
 
 on:
   workflow_dispatch:
