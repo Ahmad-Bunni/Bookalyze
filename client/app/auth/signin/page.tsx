@@ -1,11 +1,10 @@
+import { handler } from '@/app/api/auth/[...nextauth]/route'
 import { Container } from '@/app/common/layout/Container'
-import { getProviders } from 'next-auth/react'
+import { ClientSafeProvider } from 'next-auth/react'
 import SignInProvider from './components/SignInProvider'
 
 export default async function Page() {
-  const providers = await getProviders()
-
-  if (!providers) return
+  const providers: ClientSafeProvider[] = handler.providers
 
   return (
     <Container>
