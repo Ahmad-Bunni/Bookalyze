@@ -1,10 +1,10 @@
-name: Build Bookalyze Frontend
+name: Build Bookalyze Backend
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     env:
