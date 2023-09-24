@@ -1,11 +1,9 @@
 'use client'
 
-import { uploadFile } from '../api/chat.actions'
+import { UploadFile } from '../api/route'
 
 export default function FileUploadButton() {
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files
 
     if (fileList && fileList.length) {
@@ -15,7 +13,7 @@ export default function FileUploadButton() {
       formData.append('file', file)
       formData.append('namespace', 'development-3')
 
-      await uploadFile(formData)
+      await UploadFile(formData)
     }
   }
 
