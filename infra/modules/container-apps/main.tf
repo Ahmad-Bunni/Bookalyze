@@ -48,8 +48,8 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
     container {
       name   = "server"
       image  = "${var.registry_login_server}/bookalyze-be:latest"
-      cpu    = 1.25
-      memory = "2.5Gi"
+      cpu    = 2
+      memory = "4Gi"
 
       env {
         name  = "PINECONE_ENV"

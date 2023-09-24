@@ -26,5 +26,5 @@ def create_app():
 
     app.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     app.chunk_extractor_service = ChunkExtractor.get_instance()
-
+    app.encoder = SpladeEncoder()
     return app

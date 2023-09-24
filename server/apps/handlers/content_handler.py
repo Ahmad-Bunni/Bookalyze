@@ -4,23 +4,23 @@ from services import file_loader
 
 
 class ContentHandler:
-    def __init__(self, chunk_extractor_service):
+    def __init__(self, chunk_extractor_service, namespace):
         self.chunk_extractor_service = chunk_extractor_service
         self.pinecone_service = PineconeHybridSearch(
-            index_name="default")
+            index_name="default", namespace=namespace)
 
-    def process_file(self, file, namespace):
+    def process_file(self, file):
         # Check if file is a PDF
         if not self._is_pdf(file.filename):
             raise ValueError("File is not a PDF.")
 
         stream = BytesIO(file.read())
         for text in file_loader.extract_pdf_pages(stream):
-            self.process_text(text, namespace)
+            self.process_text(text)
 
-    def process_text(self, text, namespace):
+    def process_text(self, text):
         chunks = self.chunk_extractor_service.chunk_text_using_spacy(text)
-        self.pinecone_service.add_documents(chunks, namespace)
+        self.pinecone_service.add_documents(chunks)
 
     def _is_pdf(self, filename):
         return filename.endswith('.pdf')

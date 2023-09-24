@@ -2,21 +2,21 @@ import pinecone
 from flask import current_app
 
 from langchain.retrievers import PineconeHybridSearchRetriever, ContextualCompressionRetriever
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import SpacyTextSplitter
 from langchain.document_transformers import LongContextReorder
 from langchain.retrievers.document_compressors import DocumentCompressorPipeline, EmbeddingsFilter
-from pinecone_text.sparse import SpladeEncoder
 
 
 class PineconeHybridSearch:
 
-    def __init__(self, index_name, namespace, chunk_size=1000, chunk_overlap=0, similarity_threshold=0.07):
+    def __init__(self, index_name, namespace, chunk_size=2000, chunk_overlap=0, similarity_threshold=0.07):
         self.embeddings = current_app.embedding_model
         self.index = pinecone.Index(index_name)
         self.namespace = namespace
+        self.encoder = current_app.encoder
 
-        self.splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        self.splitter = SpacyTextSplitter(
+            chunk_size=chunk_size, chunk_overlap=chunk_overlap, pipeline="en_core_web_md")
         self.relevant_filter = EmbeddingsFilter(
             embeddings=self.embeddings, similarity_threshold=similarity_threshold)
         self.pipeline_compressor = DocumentCompressorPipeline(
@@ -30,7 +30,7 @@ class PineconeHybridSearch:
         self.retriever = PineconeHybridSearchRetriever(
             embeddings=self.embeddings,
             index=self.index,
-            sparse_encoder=SpladeEncoder(),
+            sparse_encoder=self.encoder,
             namespace=self.namespace,
             alpha=0.25,
             top_k=3
