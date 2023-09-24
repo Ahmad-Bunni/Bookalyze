@@ -25,6 +25,10 @@ module "container_apps" {
   PINECONE_API_KEY        = var.PINECONE_API_KEY
   PINECONE_INDEX          = var.PINECONE_INDEX
   PINECONE_ENV            = var.PINECONE_ENV
+  NEXTAUTH_URL            = var.NEXTAUTH_URL
+  GOOGLE_CLIENT_ID        = var.GOOGLE_CLIENT_ID
+  GOOGLE_CLIENT_SECRET    = var.GOOGLE_CLIENT_SECRET
+  NEXTAUTH_SECRET         = var.NEXTAUTH_SECRET
 }
 
 module "github" {

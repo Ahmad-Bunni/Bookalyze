@@ -58,3 +58,25 @@ variable "PINECONE_INDEX" {
   sensitive   = true
 }
 
+variable "GOOGLE_CLIENT_ID" {
+  description = "Google OAuth ID"
+  type        = string
+}
+
+variable "GOOGLE_CLIENT_SECRET" {
+  description = "Google OAuth Secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "NEXTAUTH_SECRET" {
+  description = "Next Auth Secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "NEXTAUTH_URL" {
+  description = "Next Auth URL"
+  type        = string
+}
+
