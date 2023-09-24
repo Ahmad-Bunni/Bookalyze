@@ -3,9 +3,8 @@ import pinecone
 from .chat import chat as chat_blueprint
 from .upload import upload as upload_blueprint
 from services.chunk_extractor import ChunkExtractor
-from pinecone_text.sparse import BM25Encoder
 from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.chat_models import ChatOpenAI
+from pinecone_text.sparse import SpladeEncoder
 from flask import Flask
 
 
@@ -25,8 +24,6 @@ def create_app():
         environment=app.config['PINECONE_ENV'],
     )
 
-    app.llm_gpt = ChatOpenAI(model_name="gpt-3.5-turbo")
-    app.bm25_encoder = BM25Encoder().default()
     app.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     app.chunk_extractor_service = ChunkExtractor.get_instance()
 
