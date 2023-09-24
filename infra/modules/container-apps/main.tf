@@ -48,8 +48,8 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
     container {
       name   = "server"
       image  = "${var.registry_login_server}/bookalyze-be:latest"
-      cpu    = 2
-      memory = "4Gi"
+      cpu    = 1.25
+      memory = "2.5Gi"
 
       env {
         name  = "PINECONE_ENV"
@@ -101,6 +101,17 @@ resource "azurerm_container_app" "bookalyze-ac-fe" {
     value = var.registry_password
   }
 
+  secret {
+    name  = "nextauthsecret"
+    value = var.NEXTAUTH_SECRET
+  }
+
+  secret {
+    name  = "googleoauthsecret"
+    value = var.GOOGLE_CLIENT_SECRET
+  }
+
+
   registry {
     server               = var.registry_login_server
     username             = var.registry_username
@@ -113,8 +124,33 @@ resource "azurerm_container_app" "bookalyze-ac-fe" {
     container {
       name   = "client"
       image  = "${var.registry_login_server}/bookalyze-fe:latest"
-      cpu    = 0.5
-      memory = "1Gi"
+      cpu    = 0.25
+      memory = "0.5Gi"
+
+      env {
+        name        = "GOOGLE_CLIENT_SECRET"
+        secret_name = "googleoauthsecret"
+      }
+
+      env {
+        name        = "NEXTAUTH_SECRET"
+        secret_name = "nextauthsecret"
+      }
+
+      env {
+        name  = "GOOGLE_CLIENT_ID"
+        value = var.GOOGLE_CLIENT_ID
+      }
+
+      env {
+        name  = "NEXTAUTH_URL"
+        value = var.NEXTAUTH_URL
+      }
+
+      env {
+        name  = "API_BASE_URL"
+        value = "https://${azurerm_container_app.bookalyze-ac-be.ingress[0].fqdn}/api"
+      }
     }
   }
 }

@@ -22,11 +22,15 @@ provider "github" {
 }
 
 module "main" {
-  source           = "../../main"
-  project_name     = "bookalyze"
-  environment_name = "dev"
-  OPENAI_API_KEY   = var.OPENAI_API_KEY
-  PINECONE_API_KEY = var.PINECONE_API_KEY
-  PINECONE_INDEX   = var.PINECONE_INDEX
-  PINECONE_ENV     = var.PINECONE_ENV
+  source               = "../../main"
+  project_name         = "bookalyze"
+  environment_name     = "dev"
+  NEXTAUTH_URL         = "https://bookalyze.com"
+  GOOGLE_CLIENT_ID     = var.GOOGLE_CLIENT_ID
+  GOOGLE_CLIENT_SECRET = var.GOOGLE_CLIENT_SECRET
+  NEXTAUTH_SECRET      = var.NEXTAUTH_SECRET
+  OPENAI_API_KEY       = var.OPENAI_API_KEY
+  PINECONE_API_KEY     = var.PINECONE_API_KEY
+  PINECONE_INDEX       = var.PINECONE_INDEX
+  PINECONE_ENV         = var.PINECONE_ENV
 }

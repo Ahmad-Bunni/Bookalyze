@@ -24,3 +24,5 @@ export const MessageComponent = React.memo(({ message }: { message: Message }) =
     </div>
   )
 })
+
+MessageComponent.displayName = 'MessageComponent'
