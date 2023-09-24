@@ -10,14 +10,13 @@ from ..services.prompts import PROMPT
 
 
 class QuestionHandler:
-    def __init__(self, chunk_extractor_service):
+    def __init__(self, chunk_extractor_service, namespace):
         self.chunk_extractor_service = chunk_extractor_service
         self.pinecone_service = PineconeHybridSearch(
-            index_name="default")
+            index_name="default", namespace=namespace)
 
     def answer_question(self, messages):
-        chat_history, question = HistoryExtractor.process_messages(
-            messages)
+        chat_history, question = HistoryExtractor.process_messages(messages)
         g = ThreadedGenerator()
         threading.Thread(target=self.llm_thread, args=(
             g, chat_history, question)).start()
