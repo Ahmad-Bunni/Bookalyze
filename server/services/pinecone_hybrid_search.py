@@ -10,9 +10,10 @@ from pinecone_text.sparse import SpladeEncoder
 
 class PineconeHybridSearch:
 
-    def __init__(self, index_name, chunk_size=1000, chunk_overlap=0, similarity_threshold=0.07):
+    def __init__(self, index_name, namespace, chunk_size=1000, chunk_overlap=0, similarity_threshold=0.07):
         self.embeddings = current_app.embedding_model
         self.index = pinecone.Index(index_name)
+        self.namespace = namespace
 
         self.splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size, chunk_overlap=chunk_overlap)
@@ -30,7 +31,8 @@ class PineconeHybridSearch:
             embeddings=self.embeddings,
             index=self.index,
             sparse_encoder=SpladeEncoder(),
-            alpha=0.3,
+            namespace=self.namespace,
+            alpha=0.25,
             top_k=3
         )
         self.compression_retriever = ContextualCompressionRetriever(
@@ -43,4 +45,4 @@ class PineconeHybridSearch:
         return self.compression_retriever
 
     def add_documents(self, docs):
-        self.retriever.add_texts(docs)
+        self.retriever.add_texts(docs, namespace=self.namespace)

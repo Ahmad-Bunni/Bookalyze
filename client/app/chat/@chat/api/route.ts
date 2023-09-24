@@ -12,6 +12,10 @@ export async function POST(req: Request) {
     body: JSON.stringify({ messages: messages, namespace: 'default' }),
   })
 
+  if (!response.ok) {
+    throw 'request failed'
+  }
+
   const stream = createStreamFromResponse(response)
 
   return new Response(stream, {

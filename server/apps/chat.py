@@ -10,8 +10,7 @@ def post_question():
     namespace = data.get('namespace')
     messages = data.get('messages')
     handler = QuestionHandler(
-        chunk_extractor_service=current_app.chunk_extractor_service)
-    response = handler.answer_question(
-        messages, namespace)
+        chunk_extractor_service=current_app.chunk_extractor_service, namespace=namespace)
+    response = handler.answer_question(messages)
 
     return Response(response, mimetype='text/event-stream')
