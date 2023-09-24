@@ -2,17 +2,16 @@
 
 import { ArrowIcon } from '@/app/common/Icons/Arrow'
 import LoadingSpinner from '@/app/common/Icons/LoadingSpinner'
-import { useEffect, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { Message, Role } from '../models'
+import { useEffect, useRef } from 'react'
 
 interface ChatInputProps {
-  onSendMessage: (message: Message) => void
+  input: any
+  handleSubmit: any
+  onInputChange: any
   isLoading: boolean
 }
 
-export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
-  const [inputValue, setInputValue] = useState<string>()
+export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const adjustInputHeight = () => {
@@ -22,29 +21,16 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
     }
   }
 
-  useEffect(() => {
-    adjustInputHeight()
-  }, [inputValue])
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (
-      event.key === 'Enter' &&
-      !event.shiftKey &&
-      inputValue?.trim() &&
-      !isLoading
-    ) {
+    if (event.key === 'Enter' && !event.shiftKey && input?.trim() && !isLoading) {
       event.preventDefault()
-
-      const message: Message = {
-        id: uuidv4(),
-        role: Role.USER,
-        text: inputValue.trim(),
-      }
-
-      onSendMessage(message)
-      setInputValue('')
+      handleSubmit(event)
     }
   }
+
+  useEffect(() => {
+    adjustInputHeight()
+  }, [input])
 
   return (
     <div className="absolute bottom-0 w-full">
@@ -53,10 +39,10 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
           <textarea
             ref={textareaRef}
             rows={1}
-            value={inputValue}
+            value={input}
             placeholder="Send a message"
             className="max-h-40 w-full resize-none bg-transparent pl-3 pr-10 text-zinc-600 outline-none dark:border-zinc-600 dark:text-zinc-200"
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={onInputChange}
             onKeyDown={handleKeyDown}
           />
 
