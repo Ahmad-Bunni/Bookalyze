@@ -1,6 +1,6 @@
 'use client'
 
-import { UploadFile } from '../api/route'
+import { UploadFile } from '../api/actions'
 
 export default function FileUploadButton() {
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
