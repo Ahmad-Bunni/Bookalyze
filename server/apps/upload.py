@@ -12,8 +12,8 @@ def upload_file():
         namespace = request.form.get('namespace')
 
         handler = ContentHandler(
-            chunk_extractor_service=current_app.chunk_extractor_service)
-        handler.process_file(file, namespace)
+            chunk_extractor_service=current_app.chunk_extractor_service, namespace=namespace)
+        handler.process_file(file)
 
         return jsonify({"message": "OK"}), 200
     except ValueError as e:
@@ -27,7 +27,7 @@ def upload_text():
     namespace = data.get('namespace')
 
     handler = ContentHandler(
-        chunk_extractor_service=current_app.chunk_extractor_service)
-    handler.process_text(content, namespace)
+        chunk_extractor_service=current_app.chunk_extractor_service, namespace=namespace)
+    handler.process_text(content)
 
     return jsonify({"message": "OK"}), 200
