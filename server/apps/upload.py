@@ -1,33 +1,25 @@
-from flask import Blueprint, jsonify, request, current_app
+from fastapi import APIRouter, Depends, UploadFile, Form, HTTPException, Request
 from .handlers.content_handler import ContentHandler
 
-
-upload = Blueprint("Upload", __name__)
-
-
-@upload.route('/file', methods=['POST'])
-def upload_file():
-    try:
-        file = request.files.get('file')
-        namespace = request.form.get('namespace')
-
-        handler = ContentHandler(
-            chunk_extractor_service=current_app.chunk_extractor_service, namespace=namespace)
-        handler.process_file(file)
-
-        return jsonify({"message": "OK"}), 200
-    except ValueError as e:
-        return jsonify({"message": str(e)}), 400
+router = APIRouter()
 
 
-@upload.route('/text', methods=['POST'])
-def upload_text():
-    data = request.json
-    content = data.get('content')
-    namespace = data.get('namespace')
+def get_content_handler(request: Request, namespace: str):
+    chunk_extractor_service = request.app.state.chunk_extractor_service
+    encoder = request.app.state.encoder
+    embeddings = request.app.state.embedding_model
+    index = request.app.state.index
 
-    handler = ContentHandler(
-        chunk_extractor_service=current_app.chunk_extractor_service, namespace=namespace)
+    return ContentHandler(chunk_extractor_service, namespace, encoder, embeddings, index)
+
+
+@router.post("/file")
+def upload_file(file: UploadFile = Form(...), namespace: str = Form(...), handler: ContentHandler = Depends(get_content_handler)):
+    handler.process_file(file.file)
+    return {"message": "OK"}
+
+
+@router.post("/text")
+def upload_text(content: str, namespace: str, handler: ContentHandler = Depends(get_content_handler)):
     handler.process_text(content)
-
-    return jsonify({"message": "OK"}), 200
+    return {"message": "OK"}

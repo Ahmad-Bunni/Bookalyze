@@ -1,6 +1,6 @@
 'use server'
 
-import { createStreamFromResponse } from './stream'
+import { CreateStreamFromResponse } from '../services/stream'
 
 export async function POST(req: Request) {
   const { messages } = await req.json()
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     throw 'request failed'
   }
 
-  const stream = createStreamFromResponse(response)
+  const stream = CreateStreamFromResponse(response)
 
   return new Response(stream, {
     headers: { 'Content-Type': 'text/event-stream' },

@@ -4,13 +4,12 @@ from services import file_loader
 
 
 class ContentHandler:
-    def __init__(self, chunk_extractor_service, namespace):
+    def __init__(self, chunk_extractor_service, namespace, encoder, embeddings, index):
         self.chunk_extractor_service = chunk_extractor_service
         self.pinecone_service = PineconeHybridSearch(
-            index_name="default", namespace=namespace)
+            namespace, embeddings, index, encoder)
 
     def process_file(self, file):
-        # Check if file is a PDF
         if not self._is_pdf(file.filename):
             raise ValueError("File is not a PDF.")
 
