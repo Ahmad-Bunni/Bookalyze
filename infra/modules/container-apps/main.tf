@@ -70,11 +70,6 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
         name        = "OPENAI_API_KEY"
         secret_name = "openaikey"
       }
-
-      env {
-        name  = "FLASK_ENV"
-        value = "development"
-      }
     }
   }
 }
