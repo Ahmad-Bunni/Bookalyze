@@ -15,7 +15,7 @@ class ChunkExtractor:
     def __init__(self):
         if self.__initialized:
             return
-        self.nlp = spacy.load("en_core_web_md")
+        self.nlp = spacy.load("en_core_web_sm")
         self.__initialized = True
 
     @classmethod

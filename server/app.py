@@ -1,13 +1,12 @@
+from uvicorn import run
 from apps import create_app
-from waitress import serve
-
 app = create_app()
 
 
-@app.route("/")
+@app.get("/")
 def index():
-    return 'up and running', 200
+    return {"message": "up and running"}
 
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=5000)
+    run(app, host="localhost", port=5000)

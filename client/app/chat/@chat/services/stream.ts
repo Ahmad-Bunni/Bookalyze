@@ -1,4 +1,4 @@
-export function createStreamFromResponse(apiResponse: Response): ReadableStream {
+export function CreateStreamFromResponse(apiResponse: Response): ReadableStream {
   return new ReadableStream({
     async start(controller) {
       const reader = apiResponse.body?.getReader()
