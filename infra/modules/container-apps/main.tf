@@ -48,8 +48,27 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
     container {
       name   = "server"
       image  = "${var.registry_login_server}/bookalyze-be:latest"
-      cpu    = 2
-      memory = "4Gi"
+      cpu    = 1
+      memory = "2Gi"
+
+      liveness_probe {
+        transport        = "HTTP"
+        port             = 5000
+        initial_delay    = 60
+        interval_seconds = 60
+      }
+
+      readiness_probe {
+        transport        = "HTTP"
+        port             = 5000
+        interval_seconds = 60
+      }
+
+      startup_probe {
+        transport        = "HTTP"
+        port             = 5000
+        interval_seconds = 60
+      }
 
       env {
         name  = "PINECONE_ENV"
