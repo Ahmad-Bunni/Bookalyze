@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowIcon } from '@/app/common/Icons/Arrow'
-import LoadingSpinner from '@/app/common/Icons/LoadingSpinner'
+import LoadingSpinner from '@/app/common/Animiation/LoadingSpinner'
+import { ArrowIcon } from '@/app/common/Icons'
 import { useEffect, useRef } from 'react'
 
 interface ChatInputProps {

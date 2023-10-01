@@ -11,7 +11,7 @@ class PineconeHybridSearch:
             embeddings=self.embeddings,
             index=self.index,
             sparse_encoder=self.encoder,
-            namespace=self.namespace,
+            namespace=namespace,
             alpha=0.25,
             top_k=3)
 

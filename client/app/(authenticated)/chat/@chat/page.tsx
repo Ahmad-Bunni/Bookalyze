@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { ChatDisplay, ChatInput } from '.'
-
 import { useChat } from 'ai/react'
+import { useEffect, useRef } from 'react'
+import { ChatDisplay, ChatInput } from './components'
 
-export default function ChatContainer() {
+export default function Chat() {
   const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat({ api: 'chat/api' })
 
   const chatRef = useRef<HTMLDivElement>(null)
@@ -19,7 +18,7 @@ export default function ChatContainer() {
   return (
     <>
       <div className="flex-1 overflow-y-auto" ref={chatRef}>
-        <ChatDisplay messages={messages} />
+        <ChatDisplay messages={messages} isLoading={isLoading} />
       </div>
 
       <div className="h-20 md:h-32">
