@@ -16,7 +16,6 @@ def get_question_handler(request: Request, askModel: AskModel):
     encoder = request.app.state.encoder
     embeddings = request.app.state.embedding_model
     index = request.app.state.index
-    print(askModel.namespace)
 
     return QuestionHandler(chunk_extractor_service, askModel.namespace, encoder, embeddings, index)
 
