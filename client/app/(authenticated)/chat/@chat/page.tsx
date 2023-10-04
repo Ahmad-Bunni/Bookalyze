@@ -17,7 +17,7 @@ export default function Chat() {
 
   return (
     <>
-      <div className="flex-1 overflow-y-auto" ref={chatRef}>
+      <div className="bg-zinc-90 flex-1 overflow-y-auto rounded-lg bg-zinc-50 p-4 dark:bg-zinc-800" ref={chatRef}>
         <ChatDisplay messages={messages} isLoading={isLoading} />
       </div>
 

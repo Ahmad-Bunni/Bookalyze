@@ -33,8 +33,8 @@ export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: Cha
   }, [input])
 
   return (
-    <div className="absolute bottom-0 w-full">
-      <div className="mx-4 flex flex-row gap-3 last:mb-4 md:last:mb-6 lg:mx-auto lg:max-w-3xl">
+    <div className="absolute bottom-0 left-0 right-0 w-full">
+      <div className="mx-6 flex flex-row gap-3 last:mb-4 md:mx-auto md:max-w-2xl md:last:mb-6 lg:max-w-4xl xl:max-w-6xl">
         <div className="shadow-xs relative flex w-full items-center rounded-xl border py-2 shadow dark:border-zinc-600 dark:bg-zinc-700 md:py-4 md:pl-2">
           <textarea
             ref={textareaRef}

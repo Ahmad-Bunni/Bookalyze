@@ -1,11 +1,10 @@
 import { ChatIcon, ResourcesIcon, WorkspaceIcon } from '@common/Icons'
-import { SubContainer } from '@common/layout/Container'
 import { ActivityTable } from './components/ActivityTable'
 import { Tile } from './components/Tile'
 
 export default function Dashboard() {
   return (
-    <SubContainer>
+    <>
       <div className="grid grid-cols-3 gap-2 max-sm:grid-cols-1">
         <Tile title="Chat" path="/chat" icon={<ChatIcon />} />
         <Tile title="Resources" path="/dashboard" icon={<ResourcesIcon />} />
@@ -16,6 +15,6 @@ export default function Dashboard() {
         <h1 className="text-xl">Recent Activities</h1>
         <ActivityTable />
       </div>
-    </SubContainer>
+    </>
   )
 }

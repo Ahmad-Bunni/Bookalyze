@@ -21,6 +21,6 @@ def get_question_handler(request: Request, askModel: AskModel):
 
 
 @router.post("/ask")
-def post_question(askModel: AskModel, handler: QuestionHandler = Depends(get_question_handler)):
+async def ask(askModel: AskModel, handler: QuestionHandler = Depends(get_question_handler)):
 
     return StreamingResponse(handler.answer_question(askModel.messages), media_type='text/event-stream')

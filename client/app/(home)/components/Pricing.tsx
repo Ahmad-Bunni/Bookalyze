@@ -1,4 +1,3 @@
-import { Container } from '@/app/common/layout/Container'
 import { ReactNode } from 'react'
 
 function PricingItem({ tier, children }: { tier: string; children: ReactNode }) {
@@ -15,7 +14,7 @@ function PricingItem({ tier, children }: { tier: string; children: ReactNode }) 
 
 export function Pricing() {
   return (
-    <Container>
+    <>
       <h2 className="my-8 text-2xl font-bold text-zinc-700 dark:text-white max-lg:text-center md:text-4xl">
         Our Pricing Tiers
       </h2>
@@ -42,6 +41,6 @@ export function Pricing() {
           <li>Perfect for Beginners</li>
         </PricingItem>
       </div>
-    </Container>
+    </>
   )
 }

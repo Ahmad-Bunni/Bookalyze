@@ -1,5 +1,3 @@
-import { Container } from '@/app/common/layout/Container'
-
 function HighlightItem({ title, content }: { title: string; content: string }) {
   return (
     <div className="text-center lg:w-1/3">
@@ -11,13 +9,10 @@ function HighlightItem({ title, content }: { title: string; content: string }) {
 
 export function Highlights() {
   return (
-    <Container>
-      <div className="flex gap-6 border-y border-zinc-100 py-8 dark:border-zinc-800 max-lg:flex-col">
-        <HighlightItem title="Instant AI Insights" content="Upload your file and uncover real-time insights." />
-        <HighlightItem title="Precision Filters" content="Enhance answers with optional page filters." />
-
-        <HighlightItem title="Supported File Types" content=" • PDF • Word • CSV • TXT" />
-      </div>
-    </Container>
+    <div className="flex gap-6 border-y border-zinc-100 py-8 dark:border-zinc-800 max-lg:flex-col">
+      <HighlightItem title="Instant AI Insights" content="Upload your file and uncover real-time insights." />
+      <HighlightItem title="Precision Filters" content="Enhance answers with optional page filters." />
+      <HighlightItem title="Supported File Types" content=" • PDF • Word • CSV • TXT" />
+    </div>
   )
 }

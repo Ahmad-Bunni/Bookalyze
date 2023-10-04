@@ -14,12 +14,12 @@ def get_content_handler(request: Request, namespace: str):
 
 
 @router.post("/file")
-def upload_file(file: UploadFile = Form(...), namespace: str = Form(...), handler: ContentHandler = Depends(get_content_handler)):
-    handler.process_file(file.file)
+async def upload_file(file: UploadFile = Form(...), handler: ContentHandler = Depends(get_content_handler)):
+    await handler.process_file(file)
     return {"message": "OK"}
 
 
 @router.post("/text")
-def upload_text(content: str, namespace: str, handler: ContentHandler = Depends(get_content_handler)):
+def upload_text(content: str, handler: ContentHandler = Depends(get_content_handler)):
     handler.process_text(content)
     return {"message": "OK"}
