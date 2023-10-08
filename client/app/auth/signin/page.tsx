@@ -1,20 +1,17 @@
-import { Container } from '@/app/common/layout/Container'
 import SignInProvider from './components/SignInProvider'
 
 export default async function Page() {
   return (
-    <Container>
-      <div className="mt-32 flex gap-8 bg-zinc-50 p-16 shadow-lg dark:bg-zinc-800 max-lg:flex-col max-lg:items-center max-lg:p-8">
-        <div className="flex w-full flex-col justify-center space-y-2 p-4 max-lg:max-w-lg">
-          <h1 className="text-2xl font-bold xl:text-4xl">Welcome to Bookalyze</h1>
+    <div className="flex h-full flex-col items-center justify-center space-y-8 bg-zinc-100 dark:bg-zinc-800">
+      <div className="flex flex-col space-y-1">
+        <h1 className="text-4xl font-bold">Welcome to Bookalyze</h1>
 
-          <p className="text-sm xl:text-base">Discover Bookalyze! Your gateway to AI-driven knowledge.</p>
-        </div>
-
-        <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">
-          <SignInProvider key="google" provider="google" />
-        </div>
+        <p className="text-base">Discover Bookalyze! Your gateway to AI-driven knowledge.</p>
       </div>
-    </Container>
+
+      <div className="flex max-w-lg flex-col justify-end">
+        <SignInProvider key="google" provider="google" />
+      </div>
+    </div>
   )
 }
