@@ -1,10 +1,19 @@
 'use server'
 
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
+
 export default async function uploadFile(formData: FormData) {
+  const data = await getServerSession(authOptions)
+  if (!data?.user?.email) return
+
   try {
     const response = await fetch(`${process.env.API_BASE_URL}/upload/file`, {
       method: 'POST',
       cache: 'no-cache',
+      headers: {
+        namespace: data?.user?.email,
+      },
       body: formData,
     })
 

@@ -37,8 +37,12 @@ class QuestionHandler:
 
     def _process_messages(self, messages: List[dict]) -> Tuple[str, List[Tuple[str, str]]]:
         question = messages.pop()['content']
-        chat_history = [(messages[i]['content'], messages[i + 1]['content'])
-                        for i in range(0, len(messages) - 1, 2)]
+
+        last_messages = messages[-8:]
+
+        chat_history = [(last_messages[i]['content'], last_messages[i + 1]['content'])
+                        for i in range(0, len(last_messages) - 1, 2)]
+
         return question, chat_history
 
     def _create_qa_chain(self, llm, question):

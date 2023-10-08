@@ -18,7 +18,7 @@ export default function FileUpload() {
   useEffect(() => {
     if (isPending) return
 
-    setFileName('')
+    setShowModal(false)
   }, [isPending])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
