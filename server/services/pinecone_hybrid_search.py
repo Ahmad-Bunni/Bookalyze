@@ -1,4 +1,4 @@
-from langchain.retrievers import PineconeHybridSearchRetriever
+from .async_pinecone_hybrid_search import AsyncPineconeHybridSearchRetriever
 
 
 class PineconeHybridSearch:
@@ -7,11 +7,11 @@ class PineconeHybridSearch:
         self.index = index
         self.namespace = namespace
         self.encoder = encoder
-        self.retriever = PineconeHybridSearchRetriever(
+        self.retriever = AsyncPineconeHybridSearchRetriever(
             embeddings=self.embeddings,
             index=self.index,
             sparse_encoder=self.encoder,
-            namespace=self.namespace,
+            namespace=namespace,
             alpha=0.25,
             top_k=3)
 

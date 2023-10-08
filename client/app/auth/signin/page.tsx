@@ -8,10 +8,7 @@ export default async function Page() {
         <div className="flex w-full flex-col justify-center space-y-2 p-4 max-lg:max-w-lg">
           <h1 className="text-2xl font-bold xl:text-4xl">Welcome to Bookalyze</h1>
 
-          <p className="text-sm italic xl:text-base">
-            Discover Bookalyze! Your gateway to AI-driven knowledge. Ask questions from documents to presentations, our
-            AI technology empowers seamless information access. Embrace the future with Bookalyze.
-          </p>
+          <p className="text-sm xl:text-base">Discover Bookalyze! Your gateway to AI-driven knowledge.</p>
         </div>
 
         <div className="flex w-full max-w-lg flex-col justify-end gap-4 p-4">

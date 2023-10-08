@@ -4,14 +4,13 @@ import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 
 export const MessageComponent = React.memo(({ message }: { message: Message }) => {
-  const isUser = message.role === 'user'
   return (
     <div
       key={message.id}
       className={`rounded-md p-4 dark:border-zinc-600 
-          ${message.role === 'user' ? 'bg-zinc-200 dark:bg-zinc-700' : 'bg-zinc-100 dark:bg-zinc-800'}`}
+          ${message.role === 'user' ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-600'}`}
     >
-      {isUser ? (
+      {message.role === 'user' ? (
         message.content
       ) : (
         <ReactMarkdown

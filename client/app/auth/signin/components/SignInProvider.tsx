@@ -3,12 +3,16 @@
 import GoogleIcon from '@public/google.svg'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 
 export default function SignInProvider({ provider }: { provider: string }) {
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard'
+
   return (
     <button
       key={provider}
-      onClick={() => signIn(provider, { callbackUrl: '/chat' })}
+      onClick={() => signIn(provider, { callbackUrl: callbackUrl })}
       type="button"
       className="active:duration-1500 flex w-full items-center justify-between rounded-lg bg-primary px-5 py-2.5 font-medium
       text-zinc-50 transition duration-75 hover:scale-105 active:bg-blue-700"

@@ -9,9 +9,5 @@ export default function LoadingDots() {
 }
 
 const Dot = ({ className }: { className?: string }) => {
-  return (
-    <span className={`animate-loader rounded-ful pb-2 text-5xl ${className}`}>
-      .
-    </span>
-  )
+  return <span className={`rounded-ful animate-loader pb-2 text-5xl ${className}`}>.</span>
 }

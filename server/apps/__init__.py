@@ -23,7 +23,7 @@ def create_app() -> FastAPI:
 
     openai.api_key = settings.OPENAI_API_KEY
 
-    app.state.index = pinecone.Index("default")
+    app.state.index = pinecone.Index(settings.PINECONE_INDEX)
     app.state.embedding_model = HuggingFaceEmbeddings(
         model_name="all-MiniLM-L6-v2")
     app.state.chunk_extractor_service = ChunkExtractor.get_instance()
