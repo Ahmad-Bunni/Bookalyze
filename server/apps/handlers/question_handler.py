@@ -19,7 +19,7 @@ class QuestionHandler:
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
         callback = AsyncIteratorCallbackHandler()
         cost = Cost()
-        llm = ChatOpenAI(streaming=True, callbacks=[
+        llm = ChatOpenAI(model_name='gpt-3.5-turbo-16k', streaming=True, callbacks=[
                          callback, CostCalcCallbackHandler("gpt-3.5-turbo", cost)])
         question, chat_history = self._process_messages(messages)
 

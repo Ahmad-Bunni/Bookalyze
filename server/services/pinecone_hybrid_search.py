@@ -12,8 +12,8 @@ class PineconeHybridSearch:
             index=self.index,
             sparse_encoder=self.encoder,
             namespace=namespace,
-            alpha=0.25,
-            top_k=3)
+            alpha=0.30,
+            top_k=10)
 
     def add_documents(self, docs):
         self.retriever.add_texts(docs, namespace=self.namespace)
