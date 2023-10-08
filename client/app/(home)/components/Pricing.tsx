@@ -15,7 +15,7 @@ function PricingItem({ tier, children }: { tier: string; children: ReactNode }) 
 export function Pricing() {
   return (
     <>
-      <h2 className="my-8 text-2xl font-bold text-zinc-700 dark:text-white max-lg:text-center md:text-4xl">
+      <h2 className="my-8 text-2xl font-bold text-zinc-700 dark:text-white max-lg:text-center lg:text-4xl">
         Our Pricing Tiers
       </h2>
 
