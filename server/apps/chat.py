@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Header
 from fastapi.responses import StreamingResponse
 from .handlers.question_handler import QuestionHandler
 
@@ -8,16 +8,15 @@ router = APIRouter()
 
 class AskModel(BaseModel):
     messages: list
-    namespace: str | None = "default"
 
 
-def get_question_handler(request: Request, askModel: AskModel):
+def get_question_handler(request: Request, namespace: str = Header(...)):
     chunk_extractor_service = request.app.state.chunk_extractor_service
     encoder = request.app.state.encoder
     embeddings = request.app.state.embedding_model
     index = request.app.state.index
 
-    return QuestionHandler(chunk_extractor_service, askModel.namespace, encoder, embeddings, index)
+    return QuestionHandler(chunk_extractor_service, namespace, encoder, embeddings, index)
 
 
 @router.post("/ask")
