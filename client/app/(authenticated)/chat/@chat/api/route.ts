@@ -1,7 +1,7 @@
 'use server'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/auth'
+import { getServerSession } from 'next-auth/next'
 import { CreateStreamFromResponse } from '../services/stream'
 
 export async function POST(req: Request) {
