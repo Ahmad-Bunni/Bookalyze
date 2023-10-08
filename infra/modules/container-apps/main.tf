@@ -43,7 +43,7 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
   }
 
   template {
-    min_replicas = 0
+    min_replicas = 1
     max_replicas = 1
     container {
       name   = "server"
@@ -54,20 +54,20 @@ resource "azurerm_container_app" "bookalyze-ac-be" {
       liveness_probe {
         transport        = "HTTP"
         port             = 5000
-        initial_delay    = 60
-        interval_seconds = 60
+        initial_delay    = 15
+        interval_seconds = 15
       }
 
       readiness_probe {
         transport        = "HTTP"
         port             = 5000
-        interval_seconds = 60
+        interval_seconds = 15
       }
 
       startup_probe {
         transport        = "HTTP"
         port             = 5000
-        interval_seconds = 60
+        interval_seconds = 15
       }
 
       env {
