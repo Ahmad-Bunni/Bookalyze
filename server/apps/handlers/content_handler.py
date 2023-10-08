@@ -11,6 +11,7 @@ class ContentHandler:
             namespace, embeddings, index, encoder)
 
     async def process_file(self, file: UploadFile):
+
         if not self._is_pdf(file.filename):
             raise ValueError("File is not a PDF.")
 

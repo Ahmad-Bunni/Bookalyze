@@ -6,6 +6,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.llms.fake import FakeListLLM
 from langchain.callbacks import AsyncIteratorCallbackHandler
 from services.pinecone_hybrid_search import PineconeHybridSearch
+from services.cost import Cost, CostCalcCallbackHandler
 from ..prompts import PROMPT
 
 
@@ -17,7 +18,9 @@ class QuestionHandler:
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
         callback = AsyncIteratorCallbackHandler()
-        llm = ChatOpenAI(streaming=True, callbacks=[callback])
+        cost = Cost()
+        llm = ChatOpenAI(streaming=True, callbacks=[
+                         callback, CostCalcCallbackHandler("gpt-3.5-turbo", cost)])
         question, chat_history = self._process_messages(messages)
 
         qa_chain = self._create_qa_chain(llm, question)
@@ -30,6 +33,8 @@ class QuestionHandler:
 
         await task
 
+        print(cost)
+
     def _process_messages(self, messages: List[dict]) -> Tuple[str, List[Tuple[str, str]]]:
         question = messages.pop()['content']
         chat_history = [(messages[i]['content'], messages[i + 1]['content'])
@@ -37,13 +42,16 @@ class QuestionHandler:
         return question, chat_history
 
     def _create_qa_chain(self, llm, question):
-        return ConversationalRetrievalChain.from_llm(
+
+        result = ConversationalRetrievalChain.from_llm(
             llm=llm,
             chain_type="stuff",
             combine_docs_chain_kwargs={'prompt': PROMPT},
             retriever=self.pinecone_service.retriever,
             condense_question_llm=FakeListLLM(responses=[question])
         )
+
+        return result
 
     async def _run_chain(self, qa_chain: ConversationalRetrievalChain, question: str, chat_history, done_event):
         try:
