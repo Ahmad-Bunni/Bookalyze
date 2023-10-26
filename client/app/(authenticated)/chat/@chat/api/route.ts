@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
   const { messages } = await req.json()
 
-  const response = await fetch(`${process.env.API_BASE_URL}/chat/ask`, {
+  const response = await fetch(`${process.env.API_BASE_URL}/chat`, {
     method: 'POST',
     cache: 'no-store',
     headers: {
