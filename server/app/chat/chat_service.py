@@ -1,64 +1,48 @@
-import asyncio
-from typing import AsyncIterable, List, Tuple
-from langchain.chat_models import ChatOpenAI
-from langchain.chains import ConversationalRetrievalChain
-from langchain.llms.fake import FakeListLLM
-from langchain.callbacks import AsyncIteratorCallbackHandler
-from app.core.pinecone_hybrid_search import PineconeHybridSearch
-from app.core.cost import Cost, CostCalcCallbackHandler
-from app.chat.constants import PROMPT
+from typing import AsyncIterable, List
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_openai import ChatOpenAI
+
+# from app.core.pinecone_service import PineconeService
 
 
 class ChatService:
-    def __init__(self, namespace, encoder, embeddings, index):
-        self.pinecone_service = PineconeHybridSearch(
-            namespace, embeddings, index, encoder)
+    # def __init__(self, namespace, embeddings, index):
+    #     self.pinecone_service = PineconeService(namespace, embeddings, index)
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
-        callback = AsyncIteratorCallbackHandler()
-        cost = Cost()
-        llm = ChatOpenAI(model_name='gpt-3.5-turbo', streaming=True, callbacks=[
-                         callback, CostCalcCallbackHandler("gpt-3.5-turbo", cost)])
-        question, chat_history = self._process_messages(messages)
-
-        qa_chain = self._create_qa_chain(llm, question)
-
-        task = asyncio.create_task(self._run_chain(
-            qa_chain, question, chat_history, callback.done))
-
-        async for token in callback.aiter():
-            yield token
-
-        await task
-
-        print(cost)
-
-    def _process_messages(self, messages: List[dict]) -> Tuple[str, List[Tuple[str, str]]]:
-        question = messages.pop()['content']
-
-        last_messages = messages[-8:]
-
-        chat_history = [(last_messages[i]['content'], last_messages[i + 1]['content'])
-                        for i in range(0, len(last_messages) - 1, 2)]
-
-        return question, chat_history
-
-    def _create_qa_chain(self, llm, question):
-
-        result = ConversationalRetrievalChain.from_llm(
-            llm=llm,
-            chain_type="stuff",
-            combine_docs_chain_kwargs={'prompt': PROMPT},
-            retriever=self.pinecone_service.retriever,
-            condense_question_llm=FakeListLLM(responses=[question])
+        model = ChatOpenAI(
+            model_name="Open-Orca/Mistral-7B-OpenOrca",
+            openai_api_key="",
+            openai_api_base="https://api.together.xyz/v1",
+            temperature=0.1,
+            max_tokens=512,
         )
 
-        return result
+        prompt = PromptTemplate.from_template(
+            """
+            You are a sharp assistant. Answer the question in the same languaged asked and based on the given context.
+            \n
+            Context: Example 1: Pet Survey (GR 2–3)
+            Ms. Hubert’s afterschool students took a survey of the 600 students at Morales Elementary 
+            School. Students were asked to select their favorite pet from a list of eight animals. Here 
+            are the results. 
+            Lizard 25, Dog 250, Cat 115, Bird 50, Guinea pig 30, Hamster 45, Fish 75, 
+            Ferret 10.
+            \n
+            Question:{question}.
+            \n
+            Answer:
+            """
+        )
 
-    async def _run_chain(self, qa_chain: ConversationalRetrievalChain, question: str, chat_history, done_event):
-        try:
-            await qa_chain.arun({"question": question, "chat_history": chat_history})
-        except Exception as e:
-            print(f"Caught exception: {e}")
-        finally:
-            done_event.set()
+        output_parser = StrOutputParser()
+
+        chain = {"question": RunnablePassthrough()} | prompt | model | output_parser
+
+        question = messages.pop()["content"]
+
+        async for chunk in chain.astream(question):
+            yield chunk

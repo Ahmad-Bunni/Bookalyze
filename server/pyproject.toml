@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "server"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+fastapi = "^0.109.0"
+uvicorn = "^0.26.0"
+python-multipart = "^0.0.6"
+langchain = "^0.1.2"
+pinecone-client = {extras = ["grpc"], version = "^3.0.1"}
+pydantic-settings = "^2.1.0"
+python-dotenv = "^1.0.0"
+tiktoken = "^0.5.2"
+pdfplumber = "^0.10.3"
+langchain-together = "^0.0.2.post1"
+langchain-openai = "^0.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
