@@ -1,25 +1,23 @@
 import asyncio
 from typing import AsyncIterable, List, Tuple
-
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain.llms.fake import FakeListLLM
 from langchain.callbacks import AsyncIteratorCallbackHandler
-from services.pinecone_hybrid_search import PineconeHybridSearch
-from services.cost import Cost, CostCalcCallbackHandler
-from ..prompts import PROMPT
+from app.core.pinecone_hybrid_search import PineconeHybridSearch
+from app.core.cost import Cost, CostCalcCallbackHandler
+from app.chat.constants import PROMPT
 
 
-class QuestionHandler:
-    def __init__(self, chunk_extractor_service, namespace, encoder, embeddings, index):
-        self.chunk_extractor_service = chunk_extractor_service
+class ChatService:
+    def __init__(self, namespace, encoder, embeddings, index):
         self.pinecone_service = PineconeHybridSearch(
             namespace, embeddings, index, encoder)
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
         callback = AsyncIteratorCallbackHandler()
         cost = Cost()
-        llm = ChatOpenAI(model_name='gpt-3.5-turbo-16k', streaming=True, callbacks=[
+        llm = ChatOpenAI(model_name='gpt-3.5-turbo', streaming=True, callbacks=[
                          callback, CostCalcCallbackHandler("gpt-3.5-turbo", cost)])
         question, chat_history = self._process_messages(messages)
 
