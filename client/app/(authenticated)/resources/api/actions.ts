@@ -8,7 +8,7 @@ export default async function uploadFile(formData: FormData) {
   if (!data?.user?.email) return
 
   try {
-    const response = await fetch(`${process.env.API_BASE_URL}/upload/file`, {
+    const response = await fetch(`${process.env.API_BASE_URL}/content/file`, {
       method: 'POST',
       cache: 'no-cache',
       headers: {

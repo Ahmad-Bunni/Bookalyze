@@ -9,6 +9,7 @@ Note: If you can't derive an answer from the provided context, kindly state that
 {chat_history}
 
 Question: {question}
+Rules: You must format your answer to be easily readable and use markdown when possible.
 Answer:
 """
 
