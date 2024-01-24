@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, UploadFile, File, Request, Header
+from fastapi import APIRouter, Depends, File, Header, Request, UploadFile
+
 from app.content.content_service import ContentService
 
 router = APIRouter(prefix="/content")
@@ -12,7 +13,9 @@ def get_content_handler(request: Request, namespace: str = Header(...)):
 
 
 @router.post("/file")
-async def upload_file(file: UploadFile = File(...), handler: ContentService = Depends(get_content_handler)):
+async def upload_file(
+    file: UploadFile = File(...), handler: ContentService = Depends(get_content_handler)
+):
     await handler.process_file(file)
     return {"message": "OK"}
 
