@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Response
+from langchain_community.embeddings import OllamaEmbeddings
 from pinecone import Pinecone
 
 from app.core.config import configs
@@ -14,12 +15,10 @@ class AppCreator:
         def _():
             return Response("Up and running")
 
-        pc = Pinecone(
-            api_key=configs.PINECONE_API_KEY,
-            environment=configs.PINECONE_ENV,
-        )
+        Pinecone(api_key=configs.PINECONE_API_KEY)
 
-        self.app.state.index = pc.Index(configs.PINECONE_INDEX)
+        self.app.state.index = configs.PINECONE_INDEX
+        self.app.state.embedding_model = OllamaEmbeddings(model="llama2")
 
 
 app_creator = AppCreator()

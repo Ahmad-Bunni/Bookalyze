@@ -12,10 +12,9 @@ class ChatModel(BaseModel):
 
 
 def get_question_handler(request: Request, namespace: str = Header(...)):
-    # return ChatService(
-    #     namespace, request.app.state.embedding_model, request.app.state.index
-    # )
-    return ChatService()
+    return ChatService(
+        namespace, request.app.state.embedding_model, request.app.state.index
+    )
 
 
 @router.post("")
