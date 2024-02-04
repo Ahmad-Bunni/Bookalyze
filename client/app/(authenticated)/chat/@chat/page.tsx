@@ -7,7 +7,7 @@ export default function Chat() {
   const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat({ api: 'chat/api' })
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-screen flex-col justify-between">
       <ChatDisplay messages={messages} isLoading={isLoading} />
 
       <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSubmit} isLoading={isLoading} />

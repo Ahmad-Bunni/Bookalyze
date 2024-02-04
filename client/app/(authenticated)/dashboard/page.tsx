@@ -1,5 +1,5 @@
-import { ChatIcon, ResourcesIcon, WorkspaceIcon } from '@common/Icons'
-import { Tile } from './components/Tile'
+import { ChatIcon, ResourcesIcon, WorkspaceIcon } from '@app/common/Icons'
+import { Tile } from './components/tile'
 
 export default function Dashboard() {
   return (

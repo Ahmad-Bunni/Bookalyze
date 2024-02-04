@@ -21,8 +21,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@common/*": ["./app/common/*"],
       "@app/*": ["./app/*"],
+      "@authenticated/*": ["./app/(authenticated)/*"],
       "@public/*": ["./public/*"]
     }
   },

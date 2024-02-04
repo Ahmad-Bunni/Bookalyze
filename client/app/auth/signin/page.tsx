@@ -2,7 +2,7 @@ import SignInProvider from './components/SignInProvider'
 
 export default async function Page() {
   return (
-    <div className="flex h-full flex-col items-center justify-center space-y-8 bg-zinc-100 dark:bg-zinc-800">
+    <div className="flex h-full flex-col items-center justify-center space-y-8">
       <div className="flex flex-col space-y-1">
         <h1 className="text-4xl font-bold">Welcome to Bookalyze</h1>
 

@@ -1,8 +1,8 @@
 export function FilesTable() {
   return (
-    <div className="overflow-y-auto rounded-md border bg-zinc-300 dark:border-none dark:bg-zinc-700">
+    <div className="overflow-y-auto rounded-md border">
       <table className="text-md min-w-full text-left max-sm:text-sm">
-        <thead className="border-b font-medium dark:border-zinc-500">
+        <thead className="border-b font-medium ">
           <tr>
             <th scope="col" className="px-6 py-4">
               File
@@ -18,11 +18,7 @@ export function FilesTable() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b dark:border-zinc-500">
-            {/* <td className="max-w-xs overflow-hidden break-words px-6 py-4">Sample</td>
-            <td className="px-6 py-4">Default</td>
-            <td className="px-6 py-4">{new Date().toLocaleString()}</td> */}
-          </tr>
+          <tr className="border-b"></tr>
         </tbody>
       </table>
       <div className="flex justify-center p-4">

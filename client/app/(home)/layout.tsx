@@ -1,12 +1,11 @@
-import { Container } from '@common/layout/Container'
-import { MainHeader } from './components/MainHeader'
+import { NavigationMenu } from './components/navbar'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <Container>
-      <MainHeader />
+    <>
+      <NavigationMenu />
 
       {children}
-    </Container>
+    </>
   )
 }

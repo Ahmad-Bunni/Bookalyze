@@ -40,17 +40,13 @@ export default function FileUpload() {
 
   return (
     <>
-      <button
-        className="rounded bg-primary px-4 py-2 text-white hover:bg-blue-700"
-        type="button"
-        onClick={() => setShowModal(true)}
-      >
+      <button className="rounded px-4 py-2" type="button" onClick={() => setShowModal(true)}>
         Upload File
       </button>
 
       {showModal ? (
         <>
-          <div className="fixed inset-x-0 top-1/4 z-50 mx-8 max-w-2xl rounded-lg bg-zinc-100 dark:bg-zinc-700 md:mx-auto">
+          <div className="fixed inset-x-0 top-1/4 z-50 mx-8 max-w-2xl rounded-lg md:mx-auto">
             <button
               onClick={() => {
                 setShowModal(false)
@@ -72,7 +68,7 @@ export default function FileUpload() {
               >
                 <label
                   htmlFor="file"
-                  className="w-full cursor-pointer rounded-md border border-dashed border-zinc-500 p-16 text-center dark:border-zinc-50"
+                  className="w-full cursor-pointer rounded-md border border-dashed  p-16 text-center"
                 >
                   <span className="mb-4 block text-lg">Drop file here</span>
                   <span className="mb-4 block text-base font-medium ">Or</span>
@@ -81,7 +77,7 @@ export default function FileUpload() {
               </div>
 
               {fileName && (
-                <div className="flex justify-between rounded-md bg-zinc-300 p-4 dark:bg-zinc-600">
+                <div className="flex justify-between rounded-md  p-4">
                   {fileName}{' '}
                   <button className="font-semibold" onClick={() => setFileName('')}>
                     Remove

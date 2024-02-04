@@ -1,9 +1,5 @@
-import FileUpload from './components/FileUpload'
-import { FilesTable } from './components/FilesTable'
-
-type Props = {
-  searchParams: Record<string, string> | null | undefined
-}
+import FileUpload from './components/file-upload'
+import { FilesTable } from './components/files-table'
 
 export default async function Page() {
   return (
