@@ -1,11 +1,12 @@
+from operator import itemgetter
 from typing import AsyncIterable, List
 
+from app.core.pinecone_service import PineconeService
+from langchain.memory import ChatMessageHistory, ConversationBufferMemory
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
-
-from app.core.pinecone_service import PineconeService
+from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 
 
 class ChatService:
@@ -13,37 +14,41 @@ class ChatService:
         self.pinecone_service = PineconeService(namespace, embeddings, index)
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
-        # formatted_messages = [
-        #     (message["role"], message["content"]) for message in messages
-        # ]
+        input = messages.pop()["content"]
 
-        # qa_system_prompt = """You are an assistant for question-answering tasks. \
-        # Use the following pieces of retrieved context to answer the question. \
-        # If you don't know the answer, just say that you don't know. \
-        # Use three sentences maximum and keep the answer concise.\
+        chat_history = ChatMessageHistory()
 
-        # {context}"""
-        # # formatted_messages.insert(
-        # #     0,
-        # #     (
-        # #         "system",
-        # #         qa_system_prompt,
-        # #     ),
-        # # )
+        for m in messages:
+            if m["role"] == "user":
+                chat_history.add_user_message(m["content"])
+            else:
+                chat_history.add_ai_message(m["content"])
 
-        # def format_docs(docs):
-        #     return "\n\n".join([d.page_content for d in docs])
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", "You are a helpful chatbot"),
+                MessagesPlaceholder(variable_name="history"),
+                ("human", "{input}"),
+            ]
+        )
 
-        # prompt = ChatPromptTemplate.from_messages(formatted_messages)
-        prompt = ChatPromptTemplate.from_template("{question}")
+        memory = ConversationBufferMemory(
+            return_messages=True, chat_memory=chat_history
+        )
 
         model = ChatOllama(
             model="deepseek-coder:6.7b",
         )
 
-        chain = {"question": RunnablePassthrough()} | prompt | model | StrOutputParser()
+        chain = (
+            RunnablePassthrough.assign(
+                history=RunnableLambda(memory.load_memory_variables)
+                | itemgetter("history")
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+        )
 
-        question = messages.pop()["content"]
-
-        async for chunk in chain.astream(question):
+        async for chunk in chain.astream({"input": input}):
             yield chunk

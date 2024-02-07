@@ -40,7 +40,7 @@ export default function FileUpload() {
 
   return (
     <>
-      <button className="rounded px-4 py-2" type="button" onClick={() => setShowModal(true)}>
+      <button type="button" onClick={() => setShowModal(true)}>
         Upload File
       </button>
 

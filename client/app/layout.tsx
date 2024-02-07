@@ -1,9 +1,7 @@
+import { Container } from '@/components/ui/container'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from './theme-provider'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Bookalyze - AI-Powered Document Analysis',
@@ -17,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <Container>{children}</Container>
         </ThemeProvider>
       </body>
     </html>
