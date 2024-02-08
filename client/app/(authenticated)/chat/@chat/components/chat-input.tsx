@@ -32,8 +32,8 @@ export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: Cha
   }, [input])
 
   return (
-    <div className="fixed bottom-0 left-0 h-36 w-full bg-background">
-      <div className="absolute bottom-12 left-0 right-0 mx-auto flex w-full max-w-5xl flex-row items-center rounded-xl border p-4 shadow">
+    <div className="fixed bottom-0 left-0 h-40 w-full bg-background">
+      <div className="absolute bottom-14 left-0 right-0 mx-auto flex w-full max-w-5xl flex-row items-center rounded-xl border p-4 shadow">
         <textarea
           ref={textareaRef}
           rows={1}

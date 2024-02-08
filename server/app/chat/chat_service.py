@@ -6,13 +6,14 @@ from langchain.memory import ChatMessageHistory, ConversationBufferMemory
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-from prompts import coder_prompt
+
+from .prompts import coder_prompt
 
 
 class ChatService:
     def __init__(self, namespace, embeddings, index):
         self.pinecone_service = PineconeService(namespace, embeddings, index)
-        self.model = ChatOllama(model="deepseek-coder:6.7b")
+        self.model = ChatOllama(model="llama2", stop=["[INST]"])
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
         input = messages.pop()["content"]
@@ -32,7 +33,7 @@ class ChatService:
         async for chunk in chain.astream({"input": input}):
             yield chunk
 
-    def build_memory(messages: List[dict]):
+    def build_memory(self, messages: List[dict]):
         chat_history = ChatMessageHistory()
 
         for m in messages:

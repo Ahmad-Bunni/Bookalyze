@@ -1,16 +1,24 @@
+import { Container } from '@/components/ui/container'
 import { Message } from 'ai'
 import { MoreHorizontal } from 'lucide-react'
 import { ChatMessage } from './chat-message'
 
 export function ChatDisplay({ messages, isLoading }: { messages: Message[]; isLoading: Boolean }) {
   return (
-    <div className="space-y-4 px-4 pb-48">
+    <div className="pb-36">
       {messages.map((message) => (
-        <div className="border-b p-2" key={message.id}>
-          <ChatMessage key={message.id} message={message} />
+        <div className="border-b p-4" key={message.id}>
+          <Container>
+            <ChatMessage key={message.id} message={message} />
+          </Container>
         </div>
       ))}
-      {isLoading && messages[messages.length - 1].role === 'user' && <MoreHorizontal className="animate-pulse" />}
+
+      <Container>
+        <div className="pt-4">
+          {isLoading && messages[messages.length - 1].role === 'user' && <MoreHorizontal className="animate-pulse" />}
+        </div>
+      </Container>
     </div>
   )
 }

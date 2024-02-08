@@ -15,7 +15,7 @@ export default function Chat() {
   }, [messages])
 
   return (
-    <div ref={chatRef} className="flex h-[calc(100vh-100px)] flex-col">
+    <div ref={chatRef} className="flex h-[calc(100vh-100px)] flex-col overflow-auto">
       <ChatDisplay messages={messages} isLoading={isLoading} />
 
       <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSubmit} isLoading={isLoading} />

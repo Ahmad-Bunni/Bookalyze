@@ -1,4 +1,3 @@
-import { Container } from '@/components/ui/container'
 import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProvider } from './theme-provider'
@@ -15,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Container>{children}</Container>
+          {children}
         </ThemeProvider>
       </body>
     </html>
