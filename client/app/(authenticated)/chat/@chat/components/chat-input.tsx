@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowIcon } from '@/app/common/Icons'
+import { ChevronRight, Loader2 } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
 interface ChatInputProps {
@@ -32,20 +32,26 @@ export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: Cha
   }, [input])
 
   return (
-    <div className="relative flex w-full flex-col items-center rounded-xl border py-4 shadow">
-      <textarea
-        ref={textareaRef}
-        rows={1}
-        value={input}
-        placeholder="Send a message"
-        className="max-h-40 w-full resize-none bg-transparent pl-3 pr-10 outline-none "
-        onChange={onInputChange}
-        onKeyDown={handleKeyDown}
-      />
+    <div className="fixed bottom-0 left-0 h-36 w-full bg-background">
+      <div className="absolute bottom-12 left-0 right-0 mx-auto flex w-full max-w-5xl flex-row items-center rounded-xl border p-4 shadow">
+        <textarea
+          ref={textareaRef}
+          rows={1}
+          value={input}
+          placeholder="Send a message"
+          className="max-h-40 w-full resize-none bg-transparent pr-10 outline-none "
+          onChange={onInputChange}
+          onKeyDown={handleKeyDown}
+        />
 
-      <button className={`absolute bottom-1 right-2 p-2  ${isLoading ? '' : 'bottom-3'}`}>
-        {isLoading ? '?' : <ArrowIcon />}
-      </button>
+        <button className="absolute bottom-1 right-2 p-2">
+          {isLoading ? (
+            <Loader2 size={32} className="animate-spin" />
+          ) : (
+            <ChevronRight size={32} onClick={handleSubmit} />
+          )}
+        </button>
+      </div>
     </div>
   )
 }
