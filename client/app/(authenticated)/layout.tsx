@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AuthenticatedNavbar />
       </NextAuthProvider>
 
-      {children}
+      <div className="mt-4">{children}</div>
     </>
   )
 }

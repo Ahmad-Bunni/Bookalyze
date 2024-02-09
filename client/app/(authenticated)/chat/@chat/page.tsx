@@ -5,8 +5,10 @@ import { useEffect, useRef } from 'react'
 import { ChatDisplay, ChatInput } from './components'
 
 export default function Chat() {
-  const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat({ api: 'chat/api' })
+  const { messages, setMessages, isLoading, input, handleInputChange, handleSubmit } = useChat({ api: 'chat/api' })
   const chatRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {}, [])
 
   useEffect(() => {
     if (chatRef.current) {
@@ -15,7 +17,7 @@ export default function Chat() {
   }, [messages])
 
   return (
-    <div ref={chatRef} className="flex h-[calc(100vh-100px)] flex-col overflow-auto">
+    <div ref={chatRef} className="flex h-[calc(100vh-100px)] flex-col overflow-auto ">
       <ChatDisplay messages={messages} isLoading={isLoading} />
 
       <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSubmit} isLoading={isLoading} />

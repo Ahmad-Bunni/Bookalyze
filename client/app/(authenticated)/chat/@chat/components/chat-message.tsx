@@ -1,3 +1,4 @@
+import { Container } from '@/components/ui/container'
 import { Message } from 'ai'
 import { Bot } from 'lucide-react'
 import React from 'react'
@@ -6,7 +7,7 @@ import gfm from 'remark-gfm'
 
 export const ChatMessage = React.memo(({ message }: { message: Message }) => {
   return (
-    <>
+    <Container>
       {message.role === 'user' ? (
         <div className="flex flex-col">
           <div className="whitespace-pre-wrap break-words">{message.content}</div>
@@ -17,13 +18,13 @@ export const ChatMessage = React.memo(({ message }: { message: Message }) => {
 
           <ReactMarkdown
             remarkPlugins={[gfm]}
-            className="prose dark:prose-invert prose-code:before:hidden prose-code:after:hidden max-w-none"
+            className="prose max-w-none dark:prose-invert prose-code:before:hidden prose-code:after:hidden"
           >
             {message.content}
           </ReactMarkdown>
         </div>
       )}
-    </>
+    </Container>
   )
 })
 

@@ -8,9 +8,7 @@ export function ChatDisplay({ messages, isLoading }: { messages: Message[]; isLo
     <div className="pb-36">
       {messages.map((message) => (
         <div className="border-b p-4" key={message.id}>
-          <Container>
-            <ChatMessage key={message.id} message={message} />
-          </Container>
+          <ChatMessage key={message.id} message={message} />
         </div>
       ))}
 
