@@ -1,26 +1,31 @@
 'use client'
 
+import { NextAuthProvider } from '@/app/auth-provider'
 import { useChat } from 'ai/react'
-import { useEffect, useRef } from 'react'
+import { AuthenticatedNavbar } from '../../auth-navbar'
 import { ChatDisplay, ChatInput } from './components'
-
+import { db } from './db/db-model'
 export default function Chat() {
-  const { messages, setMessages, isLoading, input, handleInputChange, handleSubmit } = useChat({ api: 'chat/api' })
-  const chatRef = useRef<HTMLDivElement>(null)
+  const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat({
+    api: 'chat/api',
+    onFinish(message) {
+      db.messages.add(message)
+    },
+  })
 
-  useEffect(() => {}, [])
-
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight
-    }
-  }, [messages])
+  const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit(event)
+  }
 
   return (
-    <div ref={chatRef} className="flex h-[calc(100vh-100px)] flex-col overflow-auto ">
+    <div className="flex h-full flex-1 flex-col">
+      <NextAuthProvider>
+        <AuthenticatedNavbar />
+      </NextAuthProvider>
+
       <ChatDisplay messages={messages} isLoading={isLoading} />
 
-      <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSubmit} isLoading={isLoading} />
+      <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSend} isLoading={isLoading} />
     </div>
   )
 }

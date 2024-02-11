@@ -1,6 +1,7 @@
 'use client'
 
-import { ChevronRight, Loader2 } from 'lucide-react'
+import { Container } from '@/components/ui/container'
+import { ArrowUp, Loader2 } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
 interface ChatInputProps {
@@ -32,26 +33,26 @@ export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: Cha
   }, [input])
 
   return (
-    <div className="fixed bottom-0 left-0 h-40 w-full bg-background">
-      <div className="absolute bottom-14 left-0 right-0 mx-auto flex w-full max-w-5xl flex-row items-center rounded-xl border p-4 shadow">
+    <Container>
+      <div className="relative mb-8 flex w-full flex-col overflow-hidden rounded-2xl border shadow">
         <textarea
           ref={textareaRef}
           rows={1}
           value={input}
           placeholder="Send a message"
-          className="max-h-40 w-full resize-none bg-transparent pr-10 outline-none "
+          className="resize-none bg-transparent py-4 pl-4 pr-16"
           onChange={onInputChange}
           onKeyDown={handleKeyDown}
         />
 
-        <button className="absolute bottom-1 right-2 p-2">
+        <button className="absolute bottom-3 right-4">
           {isLoading ? (
             <Loader2 size={32} className="animate-spin" />
           ) : (
-            <ChevronRight size={32} onClick={handleSubmit} />
+            <ArrowUp className="rounded-lg border p-1" size={32} onClick={handleSubmit} />
           )}
         </button>
       </div>
-    </div>
+    </Container>
   )
 }

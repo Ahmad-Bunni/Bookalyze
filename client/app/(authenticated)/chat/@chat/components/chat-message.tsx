@@ -1,4 +1,3 @@
-import { Container } from '@/components/ui/container'
 import { Message } from 'ai'
 import { Bot } from 'lucide-react'
 import React from 'react'
@@ -7,7 +6,7 @@ import gfm from 'remark-gfm'
 
 export const ChatMessage = React.memo(({ message }: { message: Message }) => {
   return (
-    <Container>
+    <div className="p-4">
       {message.role === 'user' ? (
         <div className="flex flex-col">
           <div className="whitespace-pre-wrap break-words">{message.content}</div>
@@ -24,7 +23,7 @@ export const ChatMessage = React.memo(({ message }: { message: Message }) => {
           </ReactMarkdown>
         </div>
       )}
-    </Container>
+    </div>
   )
 })
 
