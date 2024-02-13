@@ -1,29 +1,42 @@
 'use client'
 
-import { NextAuthProvider } from '@/app/auth-provider'
 import { useChat } from 'ai/react'
-import { AuthenticatedNavbar } from '../../auth-navbar'
+import { useEffect } from 'react'
 import { ChatDisplay, ChatInput } from './components'
-import { db } from './db/db-model'
+import { useChatStore } from './store'
+
 export default function Chat() {
-  const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat({
+  const { selectedConversation, messages, appendMessage } = useChatStore()
+
+  const {
+    messages: messagesStream,
+    isLoading,
+    input,
+    setMessages,
+    handleInputChange,
+    handleSubmit,
+  } = useChat({
     api: 'chat/api',
-    onFinish(message) {
-      db.messages.add(message)
+    async onFinish(message) {
+      await appendMessage(message.content, message.role)
     },
   })
 
-  const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    setMessages(messages)
+  }, [selectedConversation])
+
+  const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    await appendMessage(input, 'user')
+
     handleSubmit(event)
   }
 
   return (
     <div className="flex h-full flex-1 flex-col">
-      <NextAuthProvider>
-        <AuthenticatedNavbar />
-      </NextAuthProvider>
-
-      <ChatDisplay messages={messages} isLoading={isLoading} />
+      <ChatDisplay messages={messagesStream} isLoading={isLoading} />
 
       <ChatInput input={input} onInputChange={handleInputChange} handleSubmit={handleSend} isLoading={isLoading} />
     </div>

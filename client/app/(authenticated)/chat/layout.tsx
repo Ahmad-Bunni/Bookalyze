@@ -1,14 +1,11 @@
-import { ChatLeftbar } from './@chat/components/chat-leftbar'
-import { ChatLeftToggle } from './@chat/components/chat-leftbar-toggle'
-import { SidebarProvider } from './@chat/context/sidebar-context'
+import { ConversationsBar } from './@chat/components/conversation-bar'
+import { ConversationBarToggle } from './@chat/components/conversation-bar-toggle'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen">
-      <SidebarProvider>
-        <ChatLeftbar />
-        <ChatLeftToggle />
-      </SidebarProvider>
+      <ConversationsBar />
+      <ConversationBarToggle />
 
       {children}
     </div>
