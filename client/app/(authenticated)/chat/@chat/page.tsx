@@ -24,7 +24,7 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages(messages)
-  }, [selectedConversation])
+  }, [selectedConversation, messages, setMessages])
 
   const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

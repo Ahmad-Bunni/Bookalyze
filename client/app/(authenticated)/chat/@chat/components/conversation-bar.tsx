@@ -18,7 +18,7 @@ export function ConversationsBar() {
 
   useEffect(() => {
     fetchConversations()
-  }, [])
+  })
 
   return (
     <div
