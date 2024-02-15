@@ -8,17 +8,17 @@ import { useChatBarStore, useChatStore } from '../store'
 export function ConversationsBar() {
   const { isVisible } = useChatBarStore()
   const {
-    selectedConversation,
+    currentConversation,
     conversations,
     fetchConversations,
     searchConversations,
-    addNewConversation,
-    setSelectedConversation,
+    setConversation,
+    resetConversation,
   } = useChatStore()
 
   useEffect(() => {
     fetchConversations()
-  })
+  }, [fetchConversations])
 
   return (
     <div
@@ -35,16 +35,16 @@ export function ConversationsBar() {
           placeholder="Search"
         />
 
-        <Button onClick={addNewConversation} className="bg-primary">
+        <Button onClick={resetConversation} className="bg-primary">
           New Conversation
         </Button>
 
         {conversations.map((conversation) => (
           <button
             key={conversation.id}
-            onClick={() => setSelectedConversation(conversation.id)}
+            onClick={() => setConversation(conversation.id)}
             className={clsx('flex items-center justify-between rounded-lg border p-3 transition-all hover:bg-accent', {
-              'bg-accent': conversation.id === selectedConversation?.id,
+              'bg-accent': conversation.id === currentConversation?.id,
             })}
           >
             <div className="font-semibold">{conversation.id}</div>

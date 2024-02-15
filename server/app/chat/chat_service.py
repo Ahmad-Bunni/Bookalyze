@@ -1,7 +1,7 @@
 from operator import itemgetter
 from typing import AsyncIterable, List
 
-from app.core.pinecone_service import PineconeService
+# from app.core.pinecone_service import PineconeService
 from langchain.memory import ChatMessageHistory, ConversationBufferMemory
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
@@ -12,7 +12,7 @@ from .prompts import coder_prompt
 
 class ChatService:
     def __init__(self, namespace, embeddings, index):
-        self.pinecone_service = PineconeService(namespace, embeddings, index)
+        # self.pinecone_service = PineconeService(namespace, embeddings, index)
         self.model = ChatOllama(model="openchat:7b-v3.5-1210-q5_K_M")
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:

@@ -1,16 +1,14 @@
-// store/chatStore.tsx
 import { Message, nanoid } from 'ai'
 import { create } from 'zustand'
 import { Conversation, db } from '../db/db-model'
 
 interface ChatStore {
   conversations: Conversation[]
-  selectedConversation: Conversation | null
-  messages: Message[]
+  currentConversation: Conversation | null
   fetchConversations: () => Promise<void>
-  setSelectedConversation: (conversationId: string) => Promise<void>
+  setConversation: (conversationId: string) => Promise<void>
+  resetConversation: () => void
   searchConversations: (term: string) => Promise<void>
-  addNewConversation: () => Promise<void>
   appendMessage: (
     content: string,
     role: 'system' | 'user' | 'assistant' | 'function' | 'data' | 'tool',
@@ -19,19 +17,25 @@ interface ChatStore {
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   conversations: [],
-  selectedConversation: null,
-  messages: [],
+  currentConversation: null,
 
   fetchConversations: async () => {
     const conversations = await db.conversations.toArray()
     set({ conversations })
   },
 
-  setSelectedConversation: async (conversationId) => {
+  setConversation: async (conversationId) => {
+    const current = get().currentConversation
+    if (current && current.id === conversationId) return
+
     const conversation = await db.conversations.get(conversationId)
     if (conversation) {
-      set({ selectedConversation: conversation, messages: conversation.messages })
+      set({ currentConversation: conversation })
     }
+  },
+
+  resetConversation: () => {
+    set({ currentConversation: null })
   },
 
   searchConversations: async (term) => {
@@ -41,30 +45,31 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({ conversations })
   },
 
-  addNewConversation: async () => {
-    const newConversation: Conversation = {
-      id: nanoid(),
-      createdAt: new Date(),
-      messages: [],
-    }
-    await db.conversations.add(newConversation)
-    set((state) => ({
-      conversations: [...state.conversations, newConversation],
-      selectedConversation: newConversation,
-    }))
-  },
-
   appendMessage: async (content, role) => {
-    let { selectedConversation: currentConversation } = get()
+    let { currentConversation } = get()
+
     if (!currentConversation) {
-      await get().addNewConversation()
-      currentConversation = get().selectedConversation
+      const newConversation: Conversation = {
+        id: nanoid(),
+        createdAt: new Date(),
+        messages: [],
+      }
+
+      await db.conversations.add(newConversation)
+
+      set((state) => ({
+        conversations: [...state.conversations, newConversation],
+        selectedConversation: newConversation,
+      }))
+
+      currentConversation = newConversation
     }
+
     if (currentConversation) {
       const message: Message = { id: nanoid(), content, role, createdAt: new Date() }
-      const updatedMessages = [...currentConversation.messages, message]
-      await db.conversations.update(currentConversation.id, { messages: updatedMessages })
-      set({ messages: updatedMessages, selectedConversation: { ...currentConversation, messages: updatedMessages } })
+      currentConversation.messages.push(message)
+      await db.conversations.update(currentConversation.id, currentConversation)
+      set({ currentConversation })
     }
   },
 }))

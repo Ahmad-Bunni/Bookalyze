@@ -1,17 +1,18 @@
 'use client'
 
 import { Container } from '@/components/ui/container'
-import { ArrowUp, Loader2 } from 'lucide-react'
+import { ArrowUp, Loader2Icon, Square } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
 interface ChatInputProps {
-  input: any
-  handleSubmit: any
-  onInputChange: any
+  input: string
+  handleSend: (event: any) => void
+  handleCancel: () => void
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
   isLoading: boolean
 }
 
-export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: ChatInputProps) {
+export function ChatInput({ input, handleSend: handleSubmit, handleCancel, onInputChange, isLoading }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const adjustInputHeight = () => {
@@ -47,9 +48,14 @@ export function ChatInput({ input, handleSubmit, onInputChange, isLoading }: Cha
 
         <button className="absolute bottom-3 right-4">
           {isLoading ? (
-            <Loader2 size={32} className="animate-spin" />
+            <div className="flex gap-2">
+              <Loader2Icon size={32} className="animate-spin" />
+              <Square onClick={handleCancel} size={32} className="animate-pulse" />
+            </div>
           ) : (
-            <ArrowUp className="rounded-lg border p-1" size={32} onClick={handleSubmit} />
+            <div className="flex gap-2">
+              <ArrowUp className="rounded-lg border p-1" size={32} onClick={handleSubmit} />
+            </div>
           )}
         </button>
       </div>

@@ -1,5 +1,4 @@
-import { ConversationsBar } from './@chat/components/conversation-bar'
-import { ConversationBarToggle } from './@chat/components/conversation-bar-toggle'
+import { ConversationBarToggle, ConversationsBar } from './@chat/components'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

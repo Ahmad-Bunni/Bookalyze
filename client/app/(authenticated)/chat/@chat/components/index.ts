@@ -1,2 +1,5 @@
 export * from './chat-display'
 export * from './chat-input'
+export * from './chat-message'
+export * from './conversation-bar'
+export * from './conversation-bar-toggle'

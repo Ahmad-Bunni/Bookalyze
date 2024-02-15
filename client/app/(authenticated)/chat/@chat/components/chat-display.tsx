@@ -1,8 +1,10 @@
+'use client'
+
 import { Container } from '@/components/ui/container'
 import { Message } from 'ai'
 import { MoreHorizontal } from 'lucide-react'
 import { useEffect, useRef } from 'react'
-import { ChatMessage } from './chat-message'
+import { ChatMessage } from '.'
 
 export function ChatDisplay({ messages, isLoading }: { messages: Message[]; isLoading: Boolean }) {
   const chatRef = useRef<HTMLDivElement>(null)
