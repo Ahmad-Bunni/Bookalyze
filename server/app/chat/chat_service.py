@@ -13,7 +13,7 @@ from .prompts import coder_prompt
 class ChatService:
     def __init__(self, namespace, embeddings, index):
         # self.pinecone_service = PineconeService(namespace, embeddings, index)
-        self.model = ChatOllama(model="llama2")
+        self.model = ChatOllama(model="deepseek-coder:6.7b")
 
     async def answer_question(self, messages: List[dict]) -> AsyncIterable[str]:
         input = messages.pop()["content"]

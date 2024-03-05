@@ -18,7 +18,7 @@ class AppCreator:
         Pinecone(api_key=configs.PINECONE_API_KEY)
 
         self.app.state.index = configs.PINECONE_INDEX
-        self.app.state.embedding_model = OllamaEmbeddings(model="llama2")
+        self.app.state.embedding_model = OllamaEmbeddings(model="")
 
 
 app_creator = AppCreator()
