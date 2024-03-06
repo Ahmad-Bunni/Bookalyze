@@ -8,7 +8,7 @@ import { useChatStore } from './store'
 export default function Chat({ initialMessages }: { initialMessages: Message[] }) {
   const { appendMessage } = useChatStore()
 
-  const { messages, isLoading, input, handleInputChange, handleSubmit, stop, reload } = useChat({
+  const { messages, isLoading, input, handleInputChange, handleSubmit, stop } = useChat({
     api: 'chat/api',
     initialMessages,
     async onFinish(message) {
