@@ -12,6 +12,7 @@ export default function Main() {
       </div>
 
       <Features />
+
       <PricingContainer />
     </div>
   )
